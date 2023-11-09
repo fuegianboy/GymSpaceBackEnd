@@ -5,8 +5,8 @@ const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME } = process.env;
 const Users = require("./models/Users")
 const Products = require("./models/Products")
 const UserProducts = require("./models/UserProducts")
-
-
+const Services = require("./models/Services")
+const Coaches = require("./models/Coaches")
 
 const sequelize = new Sequelize(
    `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`,
@@ -16,17 +16,15 @@ const sequelize = new Sequelize(
    }
 );
 
-
 Users(sequelize)
 Products(sequelize)
 UserProducts(sequelize)
-
+Services(sequelize)
+Coaches(sequelize)
 
 // const { Users, Products, UserProduct } = sequelize.models;
-
 // Users.belongsToMany(Products, { through: 'UserProduct' });
 // Products.belongsToMany(Users, { through: 'UserProduct' });
-
 
 module.exports = {
    ...sequelize.models, 

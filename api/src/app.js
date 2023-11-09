@@ -22,17 +22,9 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+
 server.use(express.json());
 server.use("/", router);
-server.get("/", (req, res) => {
-    res.status(200).send("Llegué al Endpoint")
-    console.log("routes")
-})
-
-server.get("/users", (req, res) => {
-    res.status(200).send("Llegué al Endpoint de users")
-    console.log("users")
-})
 
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

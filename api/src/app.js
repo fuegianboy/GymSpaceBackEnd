@@ -22,16 +22,6 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get("/", (req, res) => {
-    res.status(200).send("Llegué al Endpoint")
-    console.log("routes")
-})
-
-server.get("/users", (req, res) => {
-    res.status(200).send("Llegué al Endpoint de users")
-    console.log("users")
-})
-
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;

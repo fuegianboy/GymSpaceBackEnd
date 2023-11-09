@@ -3,14 +3,15 @@ const { Users } = require("../../db")
 const deleteUserById = async (req, res) => {
 
     try {
+        const {id} = req.params
         await Users.destroy({
             where: {
-                id: req.params.id
+                userID: id
             }
         })
         return res.status(200).json("Eliminado correctamente")
     } catch (error) {
-        return res.status(404).json({})
+        return res.status(404).json({error:error.message})
     }
 }
 

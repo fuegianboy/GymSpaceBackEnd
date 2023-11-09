@@ -5,9 +5,7 @@ const updateUser = async (req, res) => {
     try {
         const data = req.body
         const id = req.params.id
-        const user = await Users.findOrCreate({
-            where: { id }
-        })
+        const user = await Users.findByPk(id)
         await user.update({ ...data })
         return res.status(200).json(user)
     } catch (error) {

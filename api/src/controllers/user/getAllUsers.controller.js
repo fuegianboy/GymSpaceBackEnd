@@ -1,5 +1,6 @@
 const { Users } = require("../../db")
 const { Op } = require("sequelize");
+const { toTitle } = require("../../utils")
 
 /**
  * The getUsers function handles the logic for paginating through the list of users.
@@ -20,6 +21,68 @@ const getAllUsers = async (req, res) => {
 
             options["where"]["firstName"] = {
                 [Op.like]: "%" + nameCleaned + "%"
+            }
+        }
+
+        // Check if first name are present in req.query
+        const { lname } = req.query;
+        if (lname) {
+            const nameCleaned = lname
+                .replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g, "") // remove any characters in the name that are not letters (English or accented) or spaces.
+                .replace(" ", "")
+                .toLowerCase();
+
+            options["where"]["lastName"] = {
+                [Op.like]: "%" + nameCleaned + "%"
+            }
+        }
+
+        // Check if email are present in req.query
+        const { email } = req.query;
+        if (email) {
+            const emailCleaned = email
+                .replace(" ", "")
+                .toLowerCase();
+
+            options["where"]["email"] = {
+                [Op.like]: "%" + emailCleaned + "%"
+            }
+        }
+
+        // Check if gender are present in req.query
+        const { gender } = req.query;
+        if (gender) {
+            const genderCleaned = gender
+                .replace(" ", "")
+                .toLowerCase();
+
+            options["where"]["gender"] = {
+                [Op.eq]: genderCleaned
+            }
+        }
+
+        // Check if status are present in req.query
+        const { status } = req.query;
+        if (status) {
+            const statusCleaned = status
+                .replace(" ", "")
+                .toLowerCase()
+
+            options["where"]["status"] = {
+                [Op.eq]: statusCleaned
+            }
+        }
+
+        // Check if systemRole are present in req.query
+        const { systemRole } = req.query;
+        if (systemRole) {
+            const systemRoleCleaned = toTitle(systemRole
+                .replace(" ", "")
+                .toLowerCase()
+            )
+
+            options["where"]["systemRole"] = {
+                [Op.eq]: systemRoleCleaned
             }
         }
 

@@ -21,4 +21,14 @@ router.post("/products", postProducts)
 router.delete("/products/:id", deleteProduct)
 router.put("/products/:id", updateProduct)
 
+const createCoach = require('../controllers/coaches/createCoach.controller');
+const deleteCoachById = require('../controllers/coaches/deleteCoachById.controller');
+const getCoaches = require('../controllers/coaches/getCoaches.controller');
+const updateCoach = require('../controllers/coaches/updateCoach.controller');
+
+router.get('/coaches',getCoaches);
+router.delete('/coaches/:id',deleteCoachById);
+router.put('/coaches/:id',updateCoach);
+router.post('/coaches',createCoach);
+
 module.exports = router;

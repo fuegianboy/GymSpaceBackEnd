@@ -110,12 +110,14 @@ const getAllUsers = async (req, res) => {
             sort_lname,
             sort_status,
             sort_systemRole,
+            sort_enrollmentDate,
         } = req.query
 
         const fname_direction = sort_fname?.replace(' ', '').toUpperCase()
         const lname_direction = sort_lname?.replace(' ', '').toUpperCase()
         const status_direction = sort_status?.replace(' ', '').toUpperCase()
         const systemRole_direction = sort_systemRole?.replace(' ', '').toUpperCase()
+        const enrollmentDate_direction = sort_enrollmentDate?.replace(' ', '').toUpperCase()
         
         if (["ASC", "DESC"].includes(fname_direction))
             options["order"].push(["firstName", fname_direction])
@@ -128,6 +130,9 @@ const getAllUsers = async (req, res) => {
 
         if (["ASC", "DESC"].includes(systemRole_direction))
             options["order"].push(["systemRole", systemRole_direction])
+
+        if (["ASC", "DESC"].includes(enrollmentDate_direction))
+            options["order"].push(["enrollmentDate", enrollmentDate_direction])
 
         // Use Sequelize findAll with the specified options
         const data = await Users.findAll(options);

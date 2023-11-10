@@ -22,10 +22,7 @@ UserProducts(sequelize)
 Services(sequelize)
 Coaches(sequelize)
 
-// Users.belongsToMany(Products, { through: 'UserProduct' });
-// Products.belongsToMany(Users, { through: 'UserProduct' });
-
 module.exports = {
-   ...sequelize.models, 
+   ...sequelize.models,
    conn: sequelize, 
 };

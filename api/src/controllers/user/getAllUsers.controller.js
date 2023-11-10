@@ -9,9 +9,9 @@ const getAllUsers = async (req, res) => {
 
     try {
 
-        let options = { where: {} };  // Sequelize options object for findAll
+        let options = { where: {}, order: [] };  // Sequelize options object for findAll
 
-        // Check if first name are present in req.query
+        // Check if first name is present in req.query
         const { fname } = req.query;
         if (fname) {
             const nameCleaned = fname
@@ -24,7 +24,7 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Check if first name are present in req.query
+        // Check if first name is present in req.query
         const { lname } = req.query;
         if (lname) {
             const nameCleaned = lname
@@ -37,7 +37,7 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Check if email are present in req.query
+        // Check if email is present in req.query
         const { email } = req.query;
         if (email) {
             const emailCleaned = email
@@ -49,7 +49,7 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Check if gender are present in req.query
+        // Check if gender is present in req.query
         const { gender } = req.query;
         if (gender) {
             const genderCleaned = gender
@@ -61,7 +61,7 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Check if status are present in req.query
+        // Check if status is present in req.query
         const { status } = req.query;
         if (status) {
             const statusCleaned = status
@@ -73,7 +73,7 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Check if systemRole are present in req.query
+        // Check if systemRole is present in req.query
         const { systemRole } = req.query;
         if (systemRole) {
             const systemRoleCleaned = toTitle(systemRole
@@ -103,6 +103,31 @@ const getAllUsers = async (req, res) => {
                 return res.status(400).json('Invalid page or limit');
             }
         }
+
+        // Combined sorting
+        const {
+            sort_fname,
+            sort_lname,
+            sort_status,
+            sort_systemRole,
+        } = req.query
+
+        const fname_direction = sort_fname?.replace(' ', '').toUpperCase()
+        const lname_direction = sort_lname?.replace(' ', '').toUpperCase()
+        const status_direction = sort_status?.replace(' ', '').toUpperCase()
+        const systemRole_direction = sort_systemRole?.replace(' ', '').toUpperCase()
+        
+        if (["ASC", "DESC"].includes(fname_direction))
+            options["order"].push(["firstName", fname_direction])
+
+        if (["ASC", "DESC"].includes(lname_direction))
+            options["order"].push(["lastName", lname_direction])
+
+        if (["ASC", "DESC"].includes(status_direction))
+            options["order"].push(["status", status_direction])
+
+        if (["ASC", "DESC"].includes(systemRole_direction))
+            options["order"].push(["systemRole", systemRole_direction])
 
         // Use Sequelize findAll with the specified options
         const data = await Users.findAll(options);

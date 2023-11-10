@@ -6,7 +6,8 @@ const postProducts = async (req, res) => {
   try {
     const product = req.body;
 
-    const productsAtributes = Object.keys(Products.getAttributes());
+    let productsAtributes = Object.keys(Products.getAttributes());
+    productsAtributes.shift()
     console.log(productsAtributes);
 
     // Validacion para que tenga todos los atributos

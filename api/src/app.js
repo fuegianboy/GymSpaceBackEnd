@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 // const routes = require('./routes/index.js');
+const router = require("./routes/index.js")
 
 require('./db.js');
 
@@ -22,15 +23,8 @@ server.use((req, res, next) => {
   next();
 });
 
-server.get("/", (req, res) => {
-    res.status(200).send("Llegué al Endpoint")
-    console.log("routes")
-})
-
-server.get("/users", (req, res) => {
-    res.status(200).send("Llegué al Endpoint de users")
-    console.log("users")
-})
+server.use(express.json());
+server.use("/", router);
 
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

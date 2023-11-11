@@ -6,6 +6,7 @@ const Users = require("./models/Users")
 const Products = require("./models/Products")
 const UserProducts = require("./models/UserProducts")
 const Services = require("./models/Services")
+const UserServices = require("./models/UserServices")
 const Coaches = require("./models/Coaches")
 
 const sequelize = new Sequelize(
@@ -20,6 +21,7 @@ Users(sequelize)
 Products(sequelize)
 UserProducts(sequelize)
 Services(sequelize)
+UserServices(sequelize)
 Coaches(sequelize)
 
 module.exports = {

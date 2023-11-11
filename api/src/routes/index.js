@@ -14,6 +14,7 @@ router.post('/users', createUser);
 const { getProducts } = require("../controllers/product/getProducts.controller")
 const {postProducts} = require("../controllers/product/postProducts.controller")
 const {deleteProduct} = require("../controllers/product/deleteProductById.controller")
+
 const {updateProduct} =require("../controllers/product/updateProduct.controller")
 const { filters } = require("../controllers/product/filters/filters.controller")
 
@@ -22,7 +23,29 @@ router.post("/products", postProducts)
 router.delete("/products/:id", deleteProduct)
 router.put("/products/:id", updateProduct)
 
+
 //Filtros
 router.get("/products/filter", filters)
+
+const getAllServices = require("../controllers/service/getAllServices.controller");
+const createService = require("../controllers/service/createService.controller");
+const deleteServiceById = require("../controllers/service/deleteServiceById.controller");
+const updateService = require("../controllers/service/updateService.controller");
+
+router.get("/services", getAllServices)
+router.post("/services", createService)
+router.delete("/services/:id", deleteServiceById)
+router.put("/services/:id", updateService)
+
+const createCoach = require('../controllers/coaches/createCoach.controller');
+const deleteCoachById = require('../controllers/coaches/deleteCoachById.controller');
+const getCoaches = require('../controllers/coaches/getCoaches.controller');
+const updateCoach = require('../controllers/coaches/updateCoach.controller');
+
+router.get('/coaches',getCoaches);
+router.delete('/coaches/:id',deleteCoachById);
+router.put('/coaches/:id',updateCoach);
+router.post('/coaches',createCoach);
+
 
 module.exports = router;

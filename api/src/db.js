@@ -22,7 +22,7 @@ UserProducts(sequelize)
 Services(sequelize)
 Coaches(sequelize)
 
-// const { Products } = sequelize.models;
+
 // Users.belongsToMany(Products, { through: 'UserProduct' });
 // Products.belongsToMany(Users, { through: 'UserProduct' });
 

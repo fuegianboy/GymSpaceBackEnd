@@ -1,6 +1,6 @@
 const { Users } = require("../../db")
 const { Op } = require("sequelize");
-const { toTitle } = require("../../utils")
+const { toTitle, validateSimpleDate } = require("../../utils")
 
 /**
  * The getUsers function handles the logic for paginating through the list of users.
@@ -86,6 +86,14 @@ const getAllUsers = async (req, res) => {
             }
         }
 
+        // Check if systemRole is present in req.query
+        const { startDate, endDate } = req.query;
+        if (validateSimpleDate(startDate) && validateSimpleDate(endDate)) {
+            options.where.enrollmentDate = {
+                [Op.between]: [startDate, endDate]
+            }
+        }
+
         // Check if limit and page are present in req.query
         if (req.query.limit && req.query.page) {
             const page = parseInt(req.query.page);
@@ -110,13 +118,15 @@ const getAllUsers = async (req, res) => {
             sort_lname,
             sort_status,
             sort_systemRole,
+            sort_enrollmentDate,
         } = req.query
 
         const fname_direction = sort_fname?.replace(' ', '').toUpperCase()
         const lname_direction = sort_lname?.replace(' ', '').toUpperCase()
         const status_direction = sort_status?.replace(' ', '').toUpperCase()
         const systemRole_direction = sort_systemRole?.replace(' ', '').toUpperCase()
-        
+        const enrollmentDate_direction = sort_enrollmentDate?.replace(' ', '').toUpperCase()
+
         if (["ASC", "DESC"].includes(fname_direction))
             options["order"].push(["firstName", fname_direction])
 
@@ -128,6 +138,9 @@ const getAllUsers = async (req, res) => {
 
         if (["ASC", "DESC"].includes(systemRole_direction))
             options["order"].push(["systemRole", systemRole_direction])
+
+        if (["ASC", "DESC"].includes(enrollmentDate_direction))
+            options["order"].push(["enrollmentDate", enrollmentDate_direction])
 
         // Use Sequelize findAll with the specified options
         const data = await Users.findAll(options);

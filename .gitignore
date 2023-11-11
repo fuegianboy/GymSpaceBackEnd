@@ -1,3 +1,6 @@
+# sql sessions
+*.session.sql
+
 # vs code
 .vscode
 

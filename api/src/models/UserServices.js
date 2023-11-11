@@ -71,5 +71,3 @@ module.exports = (sequelize) => {
     };
     return UserServices;
 };
-
-

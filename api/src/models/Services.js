@@ -32,13 +32,11 @@ module.exports = (sequelize) => {
         }
     },
     startTime: {
-      type: DataTypes.ENUM(
-        '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', 'M', 'T', 'N'
-      ),
+      type: DataTypes.STRING,
       allowNull: false,
     },
     duration: {
-        type: DataTypes.ENUM('45', '60', '90'),
+        type: DataTypes.STRING,
         allowNull: false,
     },
     image: {

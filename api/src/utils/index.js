@@ -6,4 +6,5 @@ module.exports = {
     ...require("../utils/validateSimpleDate"),
     ...require("../utils/isValidEmail"),
     ...require("../utils/isValidPhoneNumber"),
+    ...require("../utils/isValidHourMinuteFormat"),
 }

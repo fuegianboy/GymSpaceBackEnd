@@ -1,4 +1,7 @@
+const { Op } = require("sequelize")
 const { Services } = require("../../db")
+const { isValidHourMinuteFormat } = require("../../utils/")
+const { isValidImageUrl } = require("../../utils/isValidImageUrl")
 
 const createService = async (req, res) => {
 
@@ -21,19 +24,36 @@ const createService = async (req, res) => {
             !capacity || !areaID)
             return res.status(404).json("Incomplete data")
 
-        const service = await Services.create({
-            name,
-            description,
-            category,
-            price,
-            startTime,
-            duration,
-            image,
-            status,
-            coachID,
-            capacity,
-            areaID,
+        // Validate types and format
+
+        if (isNaN(price))
+            return res.status(404).json({ error: "price is not a number" })
+
+        if (!isValidHourMinuteFormat(startTime))
+            return res.status(404).json({ error: 'Start time must be in "hour:minute" format ("00:00" to "23:59").' })
+
+        if (isNaN(duration) || !Number.isInteger(duration))
+            return res.status(404).json({ error: "Duration must be an Integer." })
+
+        if (!isValidImageUrl(image))
+            return res.status(404).json({ error: "Invalid image url." })
+
+        if (isNaN(capacity) || !Number.isInteger(capacity))
+            return res.status(404).json({ error: "Capacity must be an Integer." })
+
+        // Validate uniqueness
+        
+        const [service, created] = await Services.findOrCreate({
+            where: {
+                [Op.or]: [{ name }]
+            },
+            defaults: { ...req.body }
         })
+
+        if (!created)
+            return res.status(404).json({
+                error: `Service with name "${name}" already exists.`
+            })
 
         return res.status(200).json(service)
     } catch (error) {

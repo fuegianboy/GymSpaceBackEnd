@@ -9,4 +9,5 @@ module.exports = {
     ...require("../utils/isValidHourMinuteFormat"),
     ...require("../utils/isValidUUID"),
     ...require("../utils/isValidImageUrl"),
+    ...require("../utils/parseIntStrict"),
 }

@@ -16,7 +16,6 @@ const getAllUsers = async (req, res) => {
         if (fname) {
             const nameCleaned = fname
                 .replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g, "") // remove any characters in the name that are not letters (English or accented) or spaces.
-                .replace(" ", "")
                 .toLowerCase();
 
             options["where"]["firstName"] = {
@@ -29,7 +28,6 @@ const getAllUsers = async (req, res) => {
         if (lname) {
             const nameCleaned = lname
                 .replace(/[^a-zA-ZáéíóúÁÉÍÓÚ\s]/g, "") // remove any characters in the name that are not letters (English or accented) or spaces.
-                .replace(" ", "")
                 .toLowerCase();
 
             options["where"]["lastName"] = {
@@ -112,7 +110,8 @@ const getAllUsers = async (req, res) => {
             }
         }
 
-        // Combined sorting
+        // Sorting
+
         const {
             sort_fname,
             sort_lname,
@@ -143,6 +142,7 @@ const getAllUsers = async (req, res) => {
             options["order"].push(["enrollmentDate", enrollmentDate_direction])
 
         // Use Sequelize findAll with the specified options
+        
         const data = await Users.findAll(options);
         return res.status(200).json(data)
     } catch (error) {

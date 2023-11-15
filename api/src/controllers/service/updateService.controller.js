@@ -1,6 +1,7 @@
 const { Op } = require("sequelize")
 const { Services } = require("../../db")
 const { isValidHourMinuteFormat, isValidImageUrl, isValidUUID } = require("../../utils")
+const { validatePositiveIntegerHandler } = require("../../handlers/validateDuration")
 
 const updateService = async (req, res) => {
 
@@ -23,29 +24,29 @@ const updateService = async (req, res) => {
 
         // Data Type Validation
 
-        if (isNaN(price))
+        if (price && isNaN(price))
             return res.status(404).json({ error: "price is not a number" })
 
-        if (isNaN(duration) || !Number.isInteger(duration))
-            return res.status(404).json({ error: "Duration must be an Integer." })
+        const validateDuration = validatePositiveIntegerHandler(duration, "Duration")
+        if (validateDuration.error) return res.status(404).json(validateDuration)
 
-        if (isNaN(capacity) || !Number.isInteger(capacity))
-            return res.status(404).json({ error: "Capacity must be an Integer." })
+        const validateCapacity = validatePositiveIntegerHandler(capacity, "Capacity")
+        if (validateCapacity.error) return res.status(404).json(validateCapacity)
 
         // Format Validation
 
-        if (!isValidHourMinuteFormat(startTime))
+        if (startTime && !isValidHourMinuteFormat(startTime))
             return res.status(404).json({ error: 'Start time must be in "hour:minute" format ("00:00" to "23:59").' })
 
-        if (!isValidImageUrl(image))
+        if (image && !isValidImageUrl(image))
             return res.status(404).json({ error: "Invalid image url." })
 
-        if (!isValidUUID(id))
+        if (id && !isValidUUID(id))
             return res.status(404).json({ error: "Id must have UUID format." })
 
         // Uniqueness Validation
-        
-        const sameNameService = await Services.findOne({
+
+        const sameNameService = name && await Services.findOne({
             where: {
                 name,
                 serviceID: { [Op.not]: id }
@@ -54,7 +55,7 @@ const updateService = async (req, res) => {
 
         if (sameNameService)
             return res.status(404).json({ error: "Name already registered" })
-        
+
         // Referential Integrity Validation
 
         const service = await Services.findByPk(id)

@@ -1,3 +1,4 @@
+const { Op } = require("sequelize")
 const { Users } = require("../../db")
 const { isValidEmail, validateSimpleDate, isValidPhoneNumber } = require("../../utils")
 
@@ -24,7 +25,10 @@ const updateUser = async (req, res) => {
                 return res.status(404).json({ error: "Invalid email" })
 
             const sameEmailUser = await Users.findOne({
-                where: { email }
+                where: {
+                    email,
+                    userID: { [Op.not]: id }
+                },
             })
 
             if (sameEmailUser)
@@ -42,7 +46,10 @@ const updateUser = async (req, res) => {
                 return res.status(404).json({ error: "Invalid phone number" })
 
             const samePhoneUser = await Users.findOne({
-                where: { phone }
+                where: {
+                    phone,
+                    userID: { [Op.not]: id }
+                }
             })
 
             if (samePhoneUser)

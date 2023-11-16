@@ -65,9 +65,35 @@ module.exports = (sequelize) => {
         state: {
             type: DataTypes.STRING
         },
+        picture_url:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        currency_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        description:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_payment_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_status: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_merchant_order_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+          }
 
     },{timestamps:false})
 
 };
-
-

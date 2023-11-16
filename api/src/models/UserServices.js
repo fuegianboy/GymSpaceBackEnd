@@ -57,17 +57,28 @@ module.exports = (sequelize) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
+        status: {
+            type: DataTypes.ENUM(
+              'deleted', 'normal'
+            ),
+            // allowNull: false,
+        },
+        userID: {
+            type: DataTypes.UUID, 
+            allowNull: false,
+            references: {
+                model: 'Users',
+                key: 'userID',
+            },
+        },
+        serviceID: {
+            type: DataTypes.UUID, 
+            allowNull: false,
+            references: {
+                model: 'Services',
+                key: 'serviceID',
+            },
+        },
     },{timestamps:false})
 
-    UserServices.associate = (models) => {
-        UserServices.belongsTo(models.Users, {
-            foreignKey: 'userID',
-            allowNull: false,
-        });
-        UserServices.belongsTo(models.Services, {
-            foreignKey: 'serviceID',
-            allowNull: false,
-        });
-    };
-    return UserServices;
 };

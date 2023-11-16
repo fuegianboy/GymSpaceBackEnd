@@ -45,19 +45,29 @@ module.exports = (sequelize) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
+        userID: {
+            type: DataTypes.UUID, 
+            references: {
+                model: 'Users',
+                key: 'userID',
+            },
+        },
+        productID: {
+            type: DataTypes.UUID, 
+            references: {
+                model: 'Products',
+                key: 'productID',
+            },
+        },
+        status: {
+            type: DataTypes.STRING
+        },
+        state: {
+            type: DataTypes.STRING
+        },
+
     },{timestamps:false})
 
-    UserProducts.associate = (models) => {
-        UserProducts.belongsTo(models.Users, {
-            foreignKey: 'userID',
-            allowNull: false,
-        });
-        UserProducts.belongsTo(models.Products, {
-            foreignKey: 'productID',
-            allowNull: false,
-        });
-    };
-    return UserProducts;
 };
 
 

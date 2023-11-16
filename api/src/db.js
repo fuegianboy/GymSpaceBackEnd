@@ -17,12 +17,30 @@ const sequelize = new Sequelize(
    }
 );
 
+
 Users(sequelize)
 Products(sequelize)
 UserProducts(sequelize)
 Services(sequelize)
 UserServices(sequelize)
 Coaches(sequelize)
+
+const models = sequelize.models;
+// relacion User - UserServices - Services
+models.Users.hasMany(models.UserServices, { foreignKey: 'userID' });
+models.UserServices.belongsTo(models.Users, { foreignKey: 'userID' });
+
+models.Services.hasMany(models.UserServices, { foreignKey: 'serviceID' });
+models.UserServices.belongsTo(models.Services, { foreignKey: 'serviceID' });
+
+
+
+// relacion User - UserProducts - Products
+models.Users.hasMany(models.UserProducts, { foreignKey: 'userID' });
+models.UserProducts.belongsTo(models.Users, { foreignKey: 'userID' });
+
+models.Products.hasMany(models.UserProducts, { foreignKey: 'productID' });
+models.UserProducts.belongsTo(models.Products, { foreignKey: 'productID' });
 
 module.exports = {
    ...sequelize.models,

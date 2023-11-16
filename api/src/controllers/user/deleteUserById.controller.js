@@ -9,7 +9,7 @@ const deleteUserById = async (req, res) => {
                 userID: id
             }
         })
-        return res.status(200).json("Eliminado correctamente")
+        return res.status(200).json("Correctly removed")
     } catch (error) {
         console.error(error);
         return res.status(404).json({ error: error.message })

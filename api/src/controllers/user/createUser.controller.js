@@ -34,7 +34,6 @@ const createUser = async (req, res) => {
         if (!isValidPhoneNumber(phone) || !isValidPhoneNumber(contactPhone))
             return res.status(404).json({ error: "Invalid phone number" })
 
-        console.log('req.body', req.body)
         const [newUser, created] = await Users.findOrCreate({
             where: {
                 [Op.or]: [{ email }, { phone }]

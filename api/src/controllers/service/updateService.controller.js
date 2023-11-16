@@ -1,7 +1,7 @@
 const { Op } = require("sequelize")
 const { Services } = require("../../db")
 const { isValidHourMinuteFormat, isValidImageUrl, isValidUUID } = require("../../utils")
-const { validatePositiveIntegerHandler } = require("../../handlers/validateDuration")
+const { isValidPositiveInteger } = require("../../utils")
 
 const updateService = async (req, res) => {
 
@@ -27,11 +27,11 @@ const updateService = async (req, res) => {
         if (price && isNaN(price))
             return res.status(404).json({ error: "price is not a number" })
 
-        const validateDuration = validatePositiveIntegerHandler(duration, "Duration")
-        if (validateDuration.error) return res.status(404).json(validateDuration)
+        if (!isValidPositiveInteger(duration))
+            return res.status(404).json({ error: `duration must be an integer number.` })
 
-        const validateCapacity = validatePositiveIntegerHandler(capacity, "Capacity")
-        if (validateCapacity.error) return res.status(404).json(validateCapacity)
+        if (!isValidPositiveInteger(capacity))
+            return res.status(404).json({ error: `capacity must be an integer number.` })
 
         // Format Validation
 

@@ -48,4 +48,8 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
+
+const paymentsRouter = require("./payments")
+router.use("/payments", paymentsRouter)
+
 module.exports = router;

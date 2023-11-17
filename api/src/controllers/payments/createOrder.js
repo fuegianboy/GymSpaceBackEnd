@@ -137,8 +137,8 @@ const createOrder = async (req, res) => {
             auto_return: "approved",
         }
 
-        const { response } = await mp.preferences.create(preference)
-        return res.json(response)
+        const data = await mp.preferences.create(preference)
+        return res.json(data)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ error: error.message });

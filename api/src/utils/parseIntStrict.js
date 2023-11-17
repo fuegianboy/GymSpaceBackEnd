@@ -5,9 +5,9 @@
  * "80" -> 80
  * "80a" -> NaN (simple parseInt would give you 80)
  */
-function parseIntStrict(n) {
-    if (isNaN(n)) return NaN
-    return parseInt(n)
+function parseIntStrict(number) {
+    if (isNaN(number)) return NaN
+    return parseInt(number)
 }
 
 module.exports = { parseIntStrict }

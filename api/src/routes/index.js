@@ -48,6 +48,11 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
+// Payments
+
+const paymentsRouter = require("./payments")
+router.use("/payments", paymentsRouter)
+
 const createUserService = require("../controllers/userServices/createUserServices.controller");
 const updateUserService = require("../controllers/userServices/updateUserServices.controller");
 const deleteUserServiceById = require("../controllers/userServices/deleteUserServiceById.controller");

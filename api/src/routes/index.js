@@ -48,11 +48,11 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
-<<<<<<< HEAD
+// Payments
 
 const paymentsRouter = require("./payments")
 router.use("/payments", paymentsRouter)
-=======
+
 const createUserService = require("../controllers/userServices/createUserServices.controller");
 const updateUserService = require("../controllers/userServices/updateUserServices.controller");
 const deleteUserServiceById = require("../controllers/userServices/deleteUserServiceById.controller");
@@ -72,6 +72,5 @@ router.post("/userproducts", createUserProduct)
 router.put("/userproducts/:id", updateUserProduct)
 router.delete("/userproducts/:id", deleteUserProductById)
 router.get("/userproducts", getAllUserProducts)
->>>>>>> fc641f97096df8b77d461d431fe327594c2f74c2
 
 module.exports = router;

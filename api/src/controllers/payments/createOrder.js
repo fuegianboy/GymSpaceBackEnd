@@ -28,7 +28,7 @@ const createOrder = async (req, res) => {
 
         // Validate product
 
-        const validateProduct = async (product) => {
+        const validateItem = async (product) => {
             const {
                 itemId,
                 title,
@@ -103,7 +103,7 @@ const createOrder = async (req, res) => {
                     errors.push("Items must have at least one product");
                 } else {
                     for (const product of items) {
-                        const productErrors = await validateProduct(product);
+                        const productErrors = await validateItem(product);
 
                         if (productErrors.length > 0) {
                             errors.push({

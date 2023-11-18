@@ -73,4 +73,8 @@ router.put("/userproducts/:id", updateUserProduct)
 router.delete("/userproducts/:id", deleteUserProductById)
 router.get("/userproducts", getAllUserProducts)
 
+
+const mailTo = require("../mailer/mailto");
+router.post("/mailto", mailTo)
+
 module.exports = router;

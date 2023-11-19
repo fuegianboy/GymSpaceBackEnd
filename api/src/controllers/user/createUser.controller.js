@@ -1,5 +1,6 @@
 const { Op } = require("sequelize")
 const { Users } = require("../../db")
+const uuid = require('uuid');
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 
 const createUser = async (req, res) => {
@@ -22,12 +23,13 @@ const createUser = async (req, res) => {
     try {
         if (ath0user){
             const userID = ath0user.user_id.replace("auth0|","")
+            const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)
             let [newUser, created] = await Users.findOrCreate({
                 where: {
-                    [Op.or]: [{ userID:userID }, { email: ath0user.email }]
+                    [Op.or]: [{ userID:uuidFromAuth0UserId }, { email: ath0user.email }]
                 },
                 defaults: {
-                    userID: userID,
+                    userID: uuidFromAuth0UserId,
                     firstName: "Tony",
                     lastName: "Stark",
                     email: ath0user.email,

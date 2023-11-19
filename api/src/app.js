@@ -16,7 +16,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'Yessssadfasdfasdf',
-  baseURL: 'http://localhost:3001',
+  baseURL: 'https://gymspacebackend-production-421c.up.railway.app',
   clientID: '1ksbzn6eueLg1R2SG3upcXZjY9Sdm4GD',
   issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com'
 };

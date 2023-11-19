@@ -1,90 +1,124 @@
 const { Products, Services, Users } = require("../../db");
-const { isStringLengthInRange, isValidImageUrl, isValidPositiveInteger, isValidPositiveNumber, isValidUUID } = require("../../utils");
+const { isStringLengthInRange, isValidImageUrl, isValidPositiveInteger, isValidPositiveNumber, isValidUUID, validateSimpleDate } = require("../../utils");
 
 const validateItem = async (item) => {
     const {
-        itemId,
-        title,
-        unit_price,
+        id,
+        // title,
+        // unit_price,
         quantity,
-        picture_url,
+        // picture_url,
         currency_id,
-        description,
+        // description,
+        startDate, // For service
+        finishDate, // For service
     } = item
     const errors = []
 
     // Validate title 
 
-    if (!title) errors.push("Product must have a title");
+    // if (!title) errors.push("Product must have a title");
 
     // Validate unit_price
 
-    if (unit_price === undefined)
-        errors.push("Product must have a unit price");
-    else if (!(isValidPositiveNumber(unit_price) && unit_price > 0))
-        errors.push("unit_price must be greater than zero");
+    // if (unit_price === undefined)
+    //     errors.push("Product must have a unit price");
+    // else if (!(isValidPositiveNumber(unit_price) && unit_price > 0))
+    //     errors.push("unit_price must be greater than zero");
 
     // Validate quantity
 
-    if (quantity === undefined)
-        errors.push("Product must have a quantity");
-    else if (!(isValidPositiveInteger(quantity) && quantity > 0))
-        errors.push("quantity must be an integer greater than zero");
+    if (!isValidPositiveInteger(quantity) || quantity < 1)
+        throw new Error("quantity must be a positive integer greater than zero.");
 
     // Validate picture_url
 
-    if (!picture_url)
-        errors.push("Product must have a picture url");
-    else if (!isValidImageUrl(picture_url))
-        errors.push("picture_url must be in URL format");
+    // if (!picture_url)
+    //     errors.push("Product must have a picture url");
+    // else if (!isValidImageUrl(picture_url))
+    //     errors.push("picture_url must be in URL format");
 
     // Validate currency_id
 
-    if (!currency_id || !isStringLengthInRange(currency_id, 3, 3))
-        errors.push("currency_id must be a currency code string like 'USD'");
+    if (currency_id && !isStringLengthInRange(currency_id, 3, 3))
+        errors.push("currency_id must be a currency code. e.g: 'USD'");
 
     // Validate description
 
-    if (!description)
-        errors.push("Product must have a description");
+    // if (!description)
+    //     errors.push("Product must have a description");
 
 
     // Validate itemId
 
-    if (!isValidUUID(itemId))
-        errors.push("ItemId must be a valid UUID format")
-    else {
-        const [productFound, serviceFound] = await Promise.all([
-            Products.findByPk(itemId),
-            Services.findByPk(itemId),
-        ])
+    if (!isValidUUID(id))
+        throw new Error("ItemId must be a valid UUID format")
 
-        if (!productFound && !serviceFound) {
-            errors.push("itemId not found")
-        }
+    // Validate existing item
 
-        // Validate Business Logic
+    const [productFound, serviceFound] = await Promise.all([
+        Products.findByPk(id),
+        Services.findByPk(id),
+    ])
 
-        if (productFound) {
-            if (quantity && (productFound.stockNow - quantity < 0))
-                errors.push(`Insufficient stock`)
+    if (!productFound && !serviceFound)
+        throw new Error("item not found")
 
-            if (productFound.status !== "available")
-                errors.push(`Product status not available`)
-        }
-        else if (serviceFound) {
-            if (quantity && quantity > 1)
-                errors.push(`You cannot buy the same service more than once.`)
+    // Validate Product
 
-            if (quantity && (serviceFound.capacity - quantity < 0))
-                errors.push(`Insufficient service capacity`)
+    if (productFound) {
 
-            if (serviceFound.status !== "Active")
-                errors.push(`Service status not active`)
-        }
+        // Validate product is available for selling
+
+        const productAcceptanceStatusList = [
+            "available",
+            "disponible"
+        ]
+
+        const productStatus = productFound.status.toLowerCase()
+
+        if (!productAcceptanceStatusList.includes(productStatus))
+            throw new Error(`Product is not available for selling`)
+
+        // Validate final stock
+
+        const finalStock = productFound.stockNow - quantity
+
+        if (quantity && (finalStock < 0))
+            throw new Error(`Insufficient stock`)
     }
 
-    return errors;
+    // Validate Service
+
+    else if (serviceFound) {
+
+        // Validate product is available for selling
+
+        const serviceAvailableStatus = [
+            "habilitado",
+            "available",
+            "active",
+        ]
+
+        const serviceStatus = serviceFound.status.toLowerCase();
+
+        if (!serviceAvailableStatus.includes(serviceStatus))
+            throw new Error(`Service is not available for selling`)
+
+        // Validate sufficient seats
+
+        // Validate startDate
+
+        if (!startDate || !validateSimpleDate(startDate))
+            throw new Error(`StartDate is invalid or mising.`)
+
+        // Validate finishDate
+
+        if (!finishDate || !validateSimpleDate(finishDate))
+            throw new Error(`FinishDate is invalid or mising.`)
+
+    }
+
 }
 
 module.exports = validateItem

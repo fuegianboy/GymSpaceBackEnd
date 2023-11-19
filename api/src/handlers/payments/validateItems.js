@@ -1,29 +1,23 @@
 const validateItem = require("./validateItem");
 
 const validateItems = async (items) => {
-    const errors = [];
 
-    if (!Array.isArray(items)) {
-        errors.push("Items must be a list");
-    } else {
-        if (!items.length) {
-            errors.push("Items must have at least one product");
-        } else {
-            for (const item of items) {
+    // Items must be a list
 
-                const itemErrors = await validateItem(item);
+    if (!Array.isArray(items))
+        throw new Error("Items must be a list");
 
-                if (itemErrors.length > 0) {
-                    errors.push({
-                        itemId: item.itemId || null,
-                        errors: itemErrors
-                    });
-                }
-            }
-        }
+    // Items mustn't be empty
+
+    if (!items.length)
+        throw new Error("Items list is empty");
+
+    // Validate items
+
+    for (const item of items) {
+        await validateItem(item);
     }
 
-    return errors;
 }
 
 module.exports = validateItems

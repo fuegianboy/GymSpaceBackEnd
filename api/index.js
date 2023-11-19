@@ -9,7 +9,7 @@ const { conn } = require("./src/db.js");
 
 const PORT = 3001
 
-server.listen(PORT, async()=>{
+server.listen(+process.env.PORT, async()=>{
     await conn.sync({ force: false })
     console.log('%s listening at 3001')
     console.log("**************************    GymSpace    ***********************")

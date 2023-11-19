@@ -3,7 +3,7 @@ const { Users } = require("../../db")
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 
 const createUser = async (req, res) => {
-    console.log(req)
+    console.log(req.body)
     const {
         firstName,
         lastName,

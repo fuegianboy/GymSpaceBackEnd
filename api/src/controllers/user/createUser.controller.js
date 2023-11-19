@@ -3,7 +3,7 @@ const { Users } = require("../../db")
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 
 const createUser = async (req, res) => {
-    console.log(req.body)
+    const {ath0user} = req.body
     const {
         firstName,
         lastName,
@@ -20,6 +20,34 @@ const createUser = async (req, res) => {
         systemRole
     } = req.body
     try {
+        if (ath0user){
+            const userID = ath0user.user_id.replace("auth0|","")
+            let [newUser, created] = await Users.findOrCreate({
+                where: {
+                    [Op.or]: [{ userID:userID }, { email: ath0user.email }]
+                },
+                defaults: {
+                    userID: userID,
+                    firstName: "Tony",
+                    lastName: "Stark",
+                    email: ath0user.email,
+                    password: "No es necesario",
+                    birth:"2023-10-03",
+                    gender: "male",
+                    address: "New York",
+                    phone: "6666666",
+                    contactPhone: "7777777",
+                    photo: "url_photo",
+                    enrollmentDate: Date.now(),
+                    status: "active",
+                    systemRole: "User"
+                }
+            })
+            if (!created) {
+                return res.status(400).send({ message: "The user already exists" });
+              }
+            return res.status(200).json(newUser)
+        }
         if (!firstName || !lastName || !email || !password ||
             !birth || !gender || !address || !phone || !contactPhone ||
             !photo || !enrollmentDate || !status || !systemRole)

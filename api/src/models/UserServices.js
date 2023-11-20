@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         },
         valuation: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isWithinRange(value) {
                     if (value < 1 || value > 10) {
@@ -57,17 +57,60 @@ module.exports = (sequelize) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
+        status: {
+            type: DataTypes.ENUM(
+              'deleted', 'normal'
+            ),
+            // allowNull: false,
+        },
+        userID: {
+            type: DataTypes.UUID, 
+            allowNull: false,
+            references: {
+                model: 'Users',
+                key: 'userID',
+            },
+        },
+        serviceID: {
+            type: DataTypes.UUID, 
+            allowNull: false,
+            references: {
+                model: 'Services',
+                key: 'serviceID',
+            },
+        },
+        picture_url:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        currency_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        description:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_payment_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_status: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_merchant_order_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_external_reference: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
     },{timestamps:false})
 
-    UserServices.associate = (models) => {
-        UserServices.belongsTo(models.Users, {
-            foreignKey: 'userID',
-            allowNull: false,
-        });
-        UserServices.belongsTo(models.Services, {
-            foreignKey: 'serviceID',
-            allowNull: false,
-        });
-    };
-    return UserServices;
 };

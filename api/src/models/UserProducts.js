@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         valuation: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isWithinRange(value) {
                     if (value < 1 || value > 10) {
@@ -45,19 +45,59 @@ module.exports = (sequelize) => {
             type: DataTypes.DATEONLY,
             allowNull: false,
         },
+        userID: {
+            type: DataTypes.UUID, 
+            references: {
+                model: 'Users',
+                key: 'userID',
+            },
+        },
+        productID: {
+            type: DataTypes.UUID, 
+            references: {
+                model: 'Products',
+                key: 'productID',
+            },
+        },
+        status: {
+            type: DataTypes.STRING
+        },
+        state: {
+            type: DataTypes.STRING
+        },
+        picture_url:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        currency_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        description:{
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_payment_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_status: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_merchant_order_id: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        mp_external_reference: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
+
     },{timestamps:false})
 
-    UserProducts.associate = (models) => {
-        UserProducts.belongsTo(models.Users, {
-            foreignKey: 'userID',
-            allowNull: false,
-        });
-        UserProducts.belongsTo(models.Products, {
-            foreignKey: 'productID',
-            allowNull: false,
-        });
-    };
-    return UserProducts;
 };
-
-

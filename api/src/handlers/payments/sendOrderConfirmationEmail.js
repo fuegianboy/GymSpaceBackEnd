@@ -2,7 +2,7 @@ const getOrderOwner = require("./getOrderOwner")
 const nodemailer = require("nodemailer")
 const messageTemplate = require("../../mailer/message");
 
-const sendOrderConfirmationEmail = async (external_reference) => {
+const sendOrderConfirmationEmail = async (external_reference, messageData) => {
 
     // Get user data
 
@@ -14,32 +14,31 @@ const sendOrderConfirmationEmail = async (external_reference) => {
 
     // Prepare message
 
-    const subject = "Confirmación: ¡Tu orden en GymSpace ha sido aprobada!"
-    const bodyMessage = `
-    ¡Excelentes noticias! Tu orden ha sido aprobada y está en proceso de preparación. Si necesitas más detalles sobre las clases o los productos, estamos aquí para ayudarte. Gracias por confiar en GymSpace para tus necesidades fitness, ¡esperamos que disfrutes al máximo de todo lo que ofrecemos!
-
-    Saludos,
-    Equipo GymSpace
-    `
+    const { subject, body } = messageData
     const link = "https://gymspace.up.railway.app/"
-    const html = messageTemplate(firstName, lastName, bodyMessage, link)
+    const html = messageTemplate(firstName, lastName, body, link)
 
     // Create transport config
+
+    const {
+        MAIL_USER,
+        MAIL_PASS,
+    } = process.env
 
     const config = {
         host: "smtp-relay.brevo.com",
         port: 2525,
         secure: false,
         auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS,
+            user: MAIL_USER,
+            pass: MAIL_PASS,
         }
     }
 
     // Create message
 
     const message = {
-        from: "helpdesk@gymspace.com",
+        from: `GymSpace helpdesk@gymspace.com`,
         to: email,
         subject,
         html

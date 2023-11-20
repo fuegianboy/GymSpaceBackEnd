@@ -1,10 +1,10 @@
 const updateOrder = require("../../handlers/payments/updateOrder")
+const samples = require("../../utils/mails/samples")
 
 const onFailure = async (req, res) => {
     try {
         await updateOrder(req.query)
-
-        // Send email
+        await sendOrderConfirmationEmail(req.query.external_reference, samples.failure)
 
         return res.json({
             message: "Orders updated",

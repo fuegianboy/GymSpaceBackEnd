@@ -1,11 +1,12 @@
 const updateOrder = require("../../handlers/payments/updateOrder")
 const sendOrderConfirmationEmail = require("../../handlers/payments/sendOrderConfirmationEmail");
+const samples = require("../../utils/mails/samples");
 
 const onSucess = async (req, res) => {
     try {
 
         await updateOrder(req.query)
-        // await sendOrderConfirmationEmail()
+        await sendOrderConfirmationEmail(req.query.external_reference, samples.success)
 
         return res.json({
             message: "Orders updated",

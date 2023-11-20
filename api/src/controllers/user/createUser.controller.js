@@ -4,6 +4,7 @@ const uuid = require('uuid');
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 
 const createUser = async (req, res) => {
+    console.log(req.body)
     const {ath0user} = req.body
     const {
         firstName,

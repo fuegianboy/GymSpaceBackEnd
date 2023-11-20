@@ -5,8 +5,12 @@ const onFailure = async (req, res) => {
         await updateOrder(req.query)
 
         // Send email
-        
-        return res.json({ message: "Orders updated", status: "failure" })
+
+        return res.json({
+            message: "Orders updated",
+            status: "failure",
+            data: req.query
+        })
     } catch (error) {
 
     }

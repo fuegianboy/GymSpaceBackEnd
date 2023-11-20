@@ -1,17 +1,17 @@
 const { Services, UserServices } = require("../../db");
 
-const createUserServiceOrder = async (userId, item) => {
+const createUserServiceOrder = async (userID, item) => {
 
     const {
-        id,
+        id: serviceID,
         currency_id,
         quantity,
         startDate,
         finishDate,
-        external_reference,
+        external_reference: mp_external_reference,
     } = item
 
-    const service = await Services.findByPk(id)
+    const service = await Services.findByPk(serviceID)
 
     if (!service)
         throw new Error("Service not found")
@@ -21,12 +21,12 @@ const createUserServiceOrder = async (userId, item) => {
     // Create order
     console.log('item', item)
     await UserServices.create({
-        userID: userId,
-        serviceID: id,
+        userID,
+        serviceID,
         startDate,
         finishDate,
         startTime: service.startTime,
-        valuation: "10",
+        valuation: 10,
         qty: quantity,
         unitPrice: service.price,
         date: Date.now(),
@@ -37,9 +37,8 @@ const createUserServiceOrder = async (userId, item) => {
         title: service.name,
         mp_payment_id: null,
         mp_status: "created",
-        // mp_merchant_order_id: null,
-        mp_merchant_order_id: external_reference, // Test
-        external_reference
+        mp_merchant_order_id: null,
+        mp_external_reference
     })
 }
 

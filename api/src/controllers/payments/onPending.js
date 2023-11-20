@@ -5,8 +5,12 @@ const onPending = async (req, res) => {
         await updateOrder(req.query)
 
         // Send email
-        
-        return res.json({ message: "Orders updated", status: "pending" })
+       
+        return res.json({
+            message: "Orders updated",
+            status: "pending",
+            data: req.query
+        })
     } catch (error) {
 
     }

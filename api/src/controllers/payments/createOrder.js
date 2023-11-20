@@ -46,7 +46,8 @@ const createOrder = async (req, res) => {
 
         for (const item of preferenceItems) {
             const productFound = await Products.findByPk(item.id)
-            productFound ? await createProductOrder(userId, item) : await createServiceOrder(userId, item)
+            productFound ? await createProductOrder(userId, item) :
+                await createServiceOrder(userId, item)
         }
 
         // Create back_urls
@@ -71,7 +72,7 @@ const createOrder = async (req, res) => {
 
         const data = await mp.preferences.create(preference)
 
-        return res.json(data.response)
+        return res.json(data)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ error: error.message });

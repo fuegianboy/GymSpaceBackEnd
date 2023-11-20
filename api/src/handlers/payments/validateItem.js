@@ -38,7 +38,7 @@ const validateItem = async (item) => {
     // else if (!isValidImageUrl(picture_url))
     //     errors.push("picture_url must be in URL format");
 
-    // Validate currency_id
+    // Validate currency_id if it exist
 
     if (currency_id && !isStringLengthInRange(currency_id, 3, 3))
         errors.push("currency_id must be a currency code. e.g: 'USD'");

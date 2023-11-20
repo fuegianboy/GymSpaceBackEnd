@@ -20,7 +20,7 @@ const createItems = async (items) => {
         preferenceItems.push({
             id,
             category_id: itemFound.category,
-            currency_id: currency_id || "ARS",
+            currency_id: "PEN",
             description: itemFound.description,
             picture_url: itemFound.image,
             title: itemFound.name,

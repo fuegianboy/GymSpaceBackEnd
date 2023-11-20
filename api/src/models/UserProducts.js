@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
         },
         valuation: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 isWithinRange(value) {
                     if (value < 1 || value > 10) {
@@ -92,7 +92,11 @@ module.exports = (sequelize) => {
         mp_merchant_order_id: {
             type: DataTypes.STRING,
             allowNull: true,
-          }
+        },
+        mp_external_reference: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        }
 
     },{timestamps:false})
 

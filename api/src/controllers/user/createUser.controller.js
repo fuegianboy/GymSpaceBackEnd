@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
                     address: "address",
                     phone: "phone",
                     contactPhone: "contactPhone",
-                    photo: "url_photo",
+                    photo: "https://i.imgur.com/kweAT9x.png",
                     enrollmentDate: Date.now(),
                     status: "unregistered",
                     systemRole: "User"

@@ -1,13 +1,16 @@
 const { Op } = require("sequelize")
 const { Users } = require("../../db")
 const { isValidEmail, validateSimpleDate, isValidPhoneNumber } = require("../../utils")
+const {getUUID} = require("../../utils/AuthUtils") 
 
 const updateUser = async (req, res) => {
 
     try {
         const data = req.body
         const id = req.params.id
-        const user = await Users.findByPk(id)
+        console.log(id)
+        const userUUID = await getUUID(id)
+        const user = await Users.findByPk(userUUID)
 
         if (!user)
             return res.status(404).json({ error: "Nonexistent Id user" })

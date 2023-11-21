@@ -7,11 +7,11 @@ const { conn } = require("./src/db.js");
 //   });
 // });
 
-const PORT = 3001
+const PORT = 30021
 
 server.listen(PORT, async()=>{
     await conn.sync({ force: false })
-    console.log('%s listening at 3001')
+    console.log(`is listening at ${PORT}`)
     console.log("**************************    GymSpace    ***********************")
 })
 

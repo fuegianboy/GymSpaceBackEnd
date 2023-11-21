@@ -50,10 +50,10 @@ const deleteCoachById = require('../controllers/coaches/deleteCoachById.controll
 const getCoaches = require('../controllers/coaches/getCoaches.controller');
 const updateCoach = require('../controllers/coaches/updateCoach.controller');
 
-const { requiresAuth } = require('express-openid-connect');
 
 
-router.get('/coaches',requiresAuth(),getCoaches);
+
+router.get('/coaches',checkJwt,getCoaches);
 router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);

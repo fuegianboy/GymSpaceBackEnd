@@ -9,6 +9,7 @@ const paymentsRouter = require("./payments")
 const mailerRouter = require("./mailer");
 const whatsappRouter = require("./whatsapp")
 
+
 const router = Router();
 
 router.use("/users", usersRouter)

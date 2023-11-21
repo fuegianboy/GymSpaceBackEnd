@@ -2,9 +2,14 @@ const { Op } = require("sequelize")
 const { Services } = require("../../db")
 const { isValidHourMinuteFormat } = require("../../utils/")
 const { isValidImageUrl } = require("../../utils/isValidImageUrl")
+const {isAdmin, getUUID} = require("../../utils/AuthUtils") 
 
 const createService = async (req, res) => {
-
+    const auth0User = req.auth.payload.sub
+    const userUUID = getUUID(auth0User)
+    if(!await isAdmin(userUUID)){
+        return res.status(401).send({error: "only Admin allowed"})
+    }
     const {
         name,
         description,

@@ -1,5 +1,12 @@
 const { Router } = require("express");
 const router = Router();
+const {auth} = require("express-oauth2-jwt-bearer")
+
+const checkJwt = auth({
+    audience: "https://gymspacebackend-production-421c.up.railway.app/",
+    issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com',
+    algorithms: ["RS256"],
+  });
 
 const createUser = require('./../controllers/user/createUser.controller');
 const deleteUserById = require('./../controllers/user/deleteUserById.controller');
@@ -34,7 +41,7 @@ const deleteServiceById = require("../controllers/service/deleteServiceById.cont
 const updateService = require("../controllers/service/updateService.controller");
 
 router.get("/services", getAllServices)
-router.post("/services", createService)
+router.post("/services", checkJwt, createService)
 router.delete("/services/:id", deleteServiceById)
 router.put("/services/:id", updateService)
 
@@ -52,13 +59,7 @@ router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
 const getUserById = require('../controllers/user/getUserById.controller')
-const {auth} = require("express-oauth2-jwt-bearer")
 
-const checkJwt = auth({
-    audience: "https://gymspacebackend-production-421c.up.railway.app/",
-    issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com',
-    algorithms: ["RS256"],
-  });
 
 router.get('/users/:userID',checkJwt, getUserById)
 

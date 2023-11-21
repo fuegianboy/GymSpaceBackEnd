@@ -53,9 +53,9 @@ const createOrder = async (req, res) => {
         // Create back_urls
 
         const back_url = `${req.protocol}://${req.get('host')}`
-        const success = `${back_url}/payments/success`
-        const failure = `${back_url}/payments/failure`
-        const pending = `${back_url}/payments/pending`
+        const success = `${back_url}/payments/update`
+        const failure = `${back_url}/payments/update`
+        const pending = `${back_url}/payments/update`
 
         // Create preference
 

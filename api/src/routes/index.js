@@ -73,8 +73,14 @@ router.put("/userproducts/:id", updateUserProduct)
 router.delete("/userproducts/:id", deleteUserProductById)
 router.get("/userproducts", getAllUserProducts)
 
+// Mailer
 
-const mailTo = require("../mailer/mailto");
-router.post("/mailto", mailTo)
+const mailerRouter = require("./mailer");
+router.use("/mailto", mailerRouter)
+
+// Whatsapp
+
+const whatsappRouter = require("./whatsapp")
+router.use("/whatsapp", whatsappRouter)
 
 module.exports = router;

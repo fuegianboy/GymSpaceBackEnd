@@ -6,7 +6,6 @@ const { toTitle, validateSimpleDate } = require("../../utils")
  * The getUsers function handles the logic for paginating through the list of users.
  */
 const getAllUsers = async (req, res) => {
-    console.log(req.body)
     try {
 
         let options = { where: {}, order: [] };  // Sequelize options object for findAll

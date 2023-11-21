@@ -51,4 +51,8 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
+const getUserById = require('../controllers/user/getUserById.controller')
+
+router.get('/users/:userID', getUserById)
+
 module.exports = router;

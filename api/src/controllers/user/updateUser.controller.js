@@ -67,6 +67,7 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ error: "Invalid phone number" })
 
         await user.update({ ...data })
+        console.log(user)
         return res.status(200).json(user)
     } catch (error) {
         console.error(error);

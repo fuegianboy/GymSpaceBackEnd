@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 // const routes = require('./routes/index.js');
 const router = require("./routes/index.js")
-const {auth} = require("express-openid-connect")
+
 const cors = require("cors")
 
 
@@ -12,14 +12,6 @@ require('./db.js');
 
 const server = express();
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: 'Yessssadfasdfasdf',
-  baseURL: 'https://gymspacebackend-production-421c.up.railway.app',
-  clientID: '1ksbzn6eueLg1R2SG3upcXZjY9Sdm4GD',
-  issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com'
-};
 
 server.name = 'API';
 
@@ -37,13 +29,16 @@ server.use(cors())
 // });
 
 server.use(express.json());
+const {auth} = require("express-oauth2-jwt-bearer")
 
-server.use(auth(config));
+const checkJwt = auth({
+    audience: "https://gymspacebackend-production-421c.up.railway.app/",
+    issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com',
+    algorithms: ["RS256"],
+  });
+server.use(checkJwt);
 
 server.use("/", router);
-server.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out' );
-});
 
 
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

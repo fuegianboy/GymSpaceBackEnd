@@ -1,4 +1,6 @@
+const { Op } = require("sequelize")
 const { Users } = require("../../db")
+const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 
 const createUser = async (req, res) => {
 
@@ -23,14 +25,29 @@ const createUser = async (req, res) => {
             !photo || !enrollmentDate || !status || !systemRole)
             return res.status(404).json("Faltan datos")
 
-        const user = await Users.findOrCreate({
-            where: { ...req.body },
-            // defaults: { steps }
+        if (!isValidEmail(email))
+            return res.status(404).json({ error: "Invalid email" })
+
+        if (!validateSimpleDate(birth) || !validateSimpleDate(enrollmentDate))
+            return res.status(404).json({ error: "Invalid date format" })
+
+        if (!isValidPhoneNumber(phone) || !isValidPhoneNumber(contactPhone))
+            return res.status(404).json({ error: "Invalid phone number" })
+
+        const [newUser, created] = await Users.findOrCreate({
+            where: {
+                [Op.or]: [{ email }, { phone }]
+            },
+            defaults: { ...req.body }
         })
 
-        return res.status(200).json(user)
+        if (!created)
+            return res.status(404).json({ error: "User with this email or phone already exists." })
+
+        return res.status(200).json({ newUser, created })
     } catch (error) {
-        return res.status(404).json({})
+        console.error(error);
+        return res.status(500).json({ error: error.message })
     }
 }
 

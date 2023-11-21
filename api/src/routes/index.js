@@ -1,15 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
-const createUser = require('./../controllers/user/createUser.controller');
-const deleteUserById = require('./../controllers/user/deleteUserById.controller');
-const getAllUsers = require('./../controllers/user/getAllUsers.controller');
-const updateUser = require('./../controllers/user/updateUser.controller');
+// Users
 
-router.get('/users',getAllUsers);
-router.delete('/users/:id', deleteUserById);
-router.put('/users/:id', updateUser);
-router.post('/users', createUser);
+const usersRouter = require("./users")
+router.use("/users", usersRouter)
 
 const { getProducts } = require("../controllers/product/getProducts.controller")
 const {postProducts} = require("../controllers/product/postProducts.controller")
@@ -72,9 +67,15 @@ router.put("/userproducts/:id", updateUserProduct)
 router.delete("/userproducts/:id", deleteUserProductById)
 router.get("/userproducts", getAllUserProducts)
 
+// Mailer
 
-const mailTo = require("../mailer/mailto");
-router.post("/mailto", mailTo)
+const mailerRouter = require("./mailer");
+router.use("/mailto", mailerRouter)
+
+// Whatsapp
+
+const whatsappRouter = require("./whatsapp")
+router.use("/whatsapp", whatsappRouter)
 
 
 module.exports = router;

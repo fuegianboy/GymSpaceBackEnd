@@ -1,15 +1,14 @@
 const { Products, Users, UserProducts } = require("../../db");
-const { isValidPositiveInteger, isValidUUID } = require("../../utils");
 
-const createProductOrder = async (userId, item) => {
+const createProductOrder = async (userID, item) => {
     const {
-        id,
+        id: productID,
         currency_id,
         quantity,
-        external_reference,
+        external_reference: mp_external_reference,
     } = item
 
-    const product = await Products.findByPk(id)
+    const product = await Products.findByPk(productID)
 
     if (!product)
         throw new Error("itemId not found")
@@ -26,9 +25,9 @@ const createProductOrder = async (userId, item) => {
     // Create order
 
     await UserProducts.create({
-        userID: userId,
-        productID: id,
-        valuation: "10",
+        userID,
+        productID,
+        valuation: 10,
         qty: quantity,
         unitPrice: product.price,
         date: Date.now(),
@@ -40,9 +39,8 @@ const createProductOrder = async (userId, item) => {
         title: product.name,
         mp_payment_id: null,
         mp_status: "created",
-        // mp_merchant_order_id: null,
-        mp_merchant_order_id: external_reference, // Test
-        external_reference
+        mp_merchant_order_id: null,
+        mp_external_reference
     })
 }
 

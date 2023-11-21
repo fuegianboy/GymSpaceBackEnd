@@ -16,16 +16,15 @@ const {postProducts} = require("../controllers/product/postProducts.controller")
 const {deleteProduct} = require("../controllers/product/deleteProductById.controller")
 
 const {updateProduct} =require("../controllers/product/updateProduct.controller")
-const { filters } = require("../controllers/product/filters/filters.controller")
+const { getProductByID } = require("../controllers/product/getProductByID.controller")
 
 router.get("/products", getProducts)
+router.get("/products/:id", getProductByID)
 router.post("/products", postProducts)
 router.delete("/products/:id", deleteProduct)
 router.put("/products/:id", updateProduct)
 
 
-//Filtros
-router.get("/products/filter", filters)
 
 const getAllServices = require("../controllers/service/getAllServices.controller");
 const createService = require("../controllers/service/createService.controller");

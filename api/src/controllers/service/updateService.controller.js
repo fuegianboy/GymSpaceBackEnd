@@ -27,10 +27,10 @@ const updateService = async (req, res) => {
         if (price && isNaN(price))
             return res.status(404).json({ error: "price is not a number" })
 
-        if (!isValidPositiveInteger(duration))
+        if (duration && !isValidPositiveInteger(duration))
             return res.status(404).json({ error: `duration must be an integer number.` })
 
-        if (!isValidPositiveInteger(capacity))
+        if (capacity && !isValidPositiveInteger(capacity))
             return res.status(404).json({ error: `capacity must be an integer number.` })
 
         // Format Validation

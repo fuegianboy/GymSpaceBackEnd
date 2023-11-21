@@ -8,6 +8,7 @@ const updateUser = async (req, res) => {
 
     try {
         const data = req.body
+        console.log(data)
         const id = req.params.id
         const userUUID = await getUUID(id)
         const user = await Users.findByPk(userUUID)

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 // const routes = require('./routes/index.js');
 const router = require("./routes/index.js")
-const {auth} = require("express-openid-connect")
+
 const cors = require("cors")
 
 

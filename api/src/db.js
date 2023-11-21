@@ -25,6 +25,7 @@ Services(sequelize)
 UserServices(sequelize)
 Coaches(sequelize)
 
+
 const models = sequelize.models;
 // relacion User - UserServices - Services
 models.Users.hasMany(models.UserServices, { foreignKey: 'userID' });
@@ -41,6 +42,7 @@ models.UserProducts.belongsTo(models.Users, { foreignKey: 'userID' });
 
 models.Products.hasMany(models.UserProducts, { foreignKey: 'productID' });
 models.UserProducts.belongsTo(models.Products, { foreignKey: 'productID' });
+
 
 module.exports = {
    ...sequelize.models,

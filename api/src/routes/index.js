@@ -11,17 +11,15 @@ const {postProducts} = require("../controllers/product/postProducts.controller")
 const {deleteProduct} = require("../controllers/product/deleteProductById.controller")
 
 const {updateProduct} =require("../controllers/product/updateProduct.controller")
-const { filters } = require("../controllers/product/filters/filters.controller")
-
+const { getProductByID } = require("../controllers/product/getProductByID.controller")
 
 router.get("/products", getProducts)
+router.get("/products/:id", getProductByID)
 router.post("/products", postProducts)
 router.delete("/products/:id", deleteProduct)
 router.put("/products/:id", updateProduct)
 
 
-//Filtros
-router.get("/products/filter", filters)
 
 const getAllServices = require("../controllers/service/getAllServices.controller");
 const createService = require("../controllers/service/createService.controller");
@@ -42,6 +40,7 @@ router.get('/coaches',getCoaches);
 router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
+
 
 // Payments
 
@@ -77,5 +76,6 @@ router.use("/mailto", mailerRouter)
 
 const whatsappRouter = require("./whatsapp")
 router.use("/whatsapp", whatsappRouter)
+
 
 module.exports = router;

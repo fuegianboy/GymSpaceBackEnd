@@ -18,7 +18,8 @@ const sendEmail = async (userData, messageData) => {
         auth: {
             user: process.env.MAIL_USER,
             pass: process.env.MAIL_PASS,
-        }
+        },
+        tls: { rejectUnauthorized: false },
     }
 
     // Create message

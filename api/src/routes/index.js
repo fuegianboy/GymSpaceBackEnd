@@ -1,10 +1,19 @@
 const { Router } = require("express");
+const usersRouter = require("./users")
+const servicesRouter = require("./services")
+const paymentsRouter = require("./payments")
+const mailerRouter = require("./mailer");
+const whatsappRouter = require("./whatsapp")
+
 const router = Router();
 
-// Users
-
-const usersRouter = require("./users")
 router.use("/users", usersRouter)
+router.use("/services", servicesRouter)
+
+router.use("/payments", paymentsRouter)
+router.use("/mailto", mailerRouter)
+router.use("/whatsapp", whatsappRouter)
+
 
 const { getProducts } = require("../controllers/product/getProducts.controller")
 const {postProducts} = require("../controllers/product/postProducts.controller")
@@ -20,17 +29,6 @@ router.delete("/products/:id", deleteProduct)
 router.put("/products/:id", updateProduct)
 
 
-
-const getAllServices = require("../controllers/service/getAllServices.controller");
-const createService = require("../controllers/service/createService.controller");
-const deleteServiceById = require("../controllers/service/deleteServiceById.controller");
-const updateService = require("../controllers/service/updateService.controller");
-
-router.get("/services", getAllServices)
-router.post("/services", createService)
-router.delete("/services/:id", deleteServiceById)
-router.put("/services/:id", updateService)
-
 const createCoach = require('../controllers/coaches/createCoach.controller');
 const deleteCoachById = require('../controllers/coaches/deleteCoachById.controller');
 const getCoaches = require('../controllers/coaches/getCoaches.controller');
@@ -41,11 +39,6 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
-
-// Payments
-
-const paymentsRouter = require("./payments")
-router.use("/payments", paymentsRouter)
 
 const createUserService = require("../controllers/userServices/createUserServices.controller");
 const updateUserService = require("../controllers/userServices/updateUserServices.controller");
@@ -66,16 +59,6 @@ router.post("/userproducts", createUserProduct)
 router.put("/userproducts/:id", updateUserProduct)
 router.delete("/userproducts/:id", deleteUserProductById)
 router.get("/userproducts", getAllUserProducts)
-
-// Mailer
-
-const mailerRouter = require("./mailer");
-router.use("/mailto", mailerRouter)
-
-// Whatsapp
-
-const whatsappRouter = require("./whatsapp")
-router.use("/whatsapp", whatsappRouter)
 
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const { Services } = require("../../db")
 const { isValidUUID } = require("../../utils")
 
-const deleteServiceById = async (req, res) => {
+module.exports = async (req, res) => {
 
     try {
         let { id } = req.params
@@ -14,8 +14,8 @@ const deleteServiceById = async (req, res) => {
         if (!service) {
             return res.status(404).send({ message: "Service not found" })
         }
-        await service.destroy()
-        return res.status(200).json("Service deleted")
+
+        return res.status(200).json(service)
     } catch (error) {
         console.log(error)
         return res.status(500).send({
@@ -24,5 +24,3 @@ const deleteServiceById = async (req, res) => {
         });
     }
 }
-
-module.exports = deleteServiceById;

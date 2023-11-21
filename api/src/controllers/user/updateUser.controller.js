@@ -34,7 +34,7 @@ const updateUser = async (req, res) => {
             const sameEmailUser = await Users.findOne({
                 where: {
                     email,
-                    userID: { [Op.not]: id }
+                    userID: { [Op.not]: userUUID }
                 },
             })
 
@@ -55,7 +55,7 @@ const updateUser = async (req, res) => {
             const samePhoneUser = await Users.findOne({
                 where: {
                     phone,
-                    userID: { [Op.not]: id }
+                    userID: { [Op.not]: userUUID }
                 }
             })
 

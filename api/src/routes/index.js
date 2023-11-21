@@ -1,15 +1,10 @@
 const { Router } = require("express");
 const router = Router();
 
-const createUser = require('./../controllers/user/createUser.controller');
-const deleteUserById = require('./../controllers/user/deleteUserById.controller');
-const getAllUsers = require('./../controllers/user/getAllUsers.controller');
-const updateUser = require('./../controllers/user/updateUser.controller');
+// Users
 
-router.get('/users',getAllUsers);
-router.delete('/users/:id', deleteUserById);
-router.put('/users/:id', updateUser);
-router.post('/users', createUser);
+const usersRouter = require("./users")
+router.use("/users", usersRouter)
 
 const { getProducts } = require("../controllers/product/getProducts.controller")
 const {postProducts} = require("../controllers/product/postProducts.controller")

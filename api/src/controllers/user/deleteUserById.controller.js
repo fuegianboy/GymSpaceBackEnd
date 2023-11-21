@@ -1,5 +1,6 @@
 const { Users } = require("../../db")
 const { isValidUUID } = require("../../utils")
+const {getUUID} = require("../../utils/AuthUtils")
 
 const deleteUserById = async (req, res) => {
 
@@ -16,7 +17,7 @@ const deleteUserById = async (req, res) => {
 
         await Users.destroy({
             where: {
-                userID: id
+                userID: userUUID
             }
         })
         return res.status(200).json("Correctly removed")

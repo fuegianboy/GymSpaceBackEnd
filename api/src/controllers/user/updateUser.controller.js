@@ -8,7 +8,7 @@ const updateUser = async (req, res) => {
     try {
         const data = req.body
         const id = req.params.id
-        console.log(id)
+        
         const userUUID = await getUUID(id)
         const user = await Users.findByPk(userUUID)
 
@@ -30,7 +30,7 @@ const updateUser = async (req, res) => {
             const sameEmailUser = await Users.findOne({
                 where: {
                     email,
-                    userID: { [Op.not]: id }
+                    userID: { [Op.not]: userUUID }
                 },
             })
 
@@ -51,7 +51,7 @@ const updateUser = async (req, res) => {
             const samePhoneUser = await Users.findOne({
                 where: {
                     phone,
-                    userID: { [Op.not]: id }
+                    userID: { [Op.not]: userUUID }
                 }
             })
 

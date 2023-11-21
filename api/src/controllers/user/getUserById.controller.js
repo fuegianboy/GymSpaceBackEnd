@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const uuid = require('uuid');
 
 const getUserById = async (req, res) => {
+  console.log(req.headers)
     let { userID } = req.params
     userID = userID.split("|")[1]
     const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)

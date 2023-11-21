@@ -52,7 +52,14 @@ router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
 const getUserById = require('../controllers/user/getUserById.controller')
+const {auth} = require("express-oauth2-jwt-bearer")
 
-router.get('/users/:userID', getUserById)
+const checkJwt = auth({
+    audience: "https://gymspacebackend-production-421c.up.railway.app/",
+    issuerBaseURL: 'https://dev-y4mdv7lm3spxjtu2.us.auth0.com',
+    algorithms: ["RS256"],
+  });
+
+router.get('/users/:userID',checkJwt, getUserById)
 
 module.exports = router;

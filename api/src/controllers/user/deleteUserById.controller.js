@@ -4,9 +4,10 @@ const deleteUserById = async (req, res) => {
 
     try {
         const { id } = req.params
+        const userUUID = await getUUID(id)
         await Users.destroy({
             where: {
-                userID: id
+                userID: userUUID
             }
         })
         return res.status(200).json("Correctly removed")

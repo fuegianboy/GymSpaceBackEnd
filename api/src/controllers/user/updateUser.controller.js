@@ -7,7 +7,8 @@ const updateUser = async (req, res) => {
     try {
         const data = req.body
         const id = req.params.id
-        const user = await Users.findByPk(id)
+        const userUUID = await getUUID(id)
+        const user = await Users.findByPk(userUUID)
 
         if (!user)
             return res.status(404).json({ error: "Nonexistent Id user" })

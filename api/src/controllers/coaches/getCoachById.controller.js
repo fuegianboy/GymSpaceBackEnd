@@ -15,13 +15,7 @@ const deleteCoachById = async (req, res) => {
             return res.status(404).json({ error: "Wrong ID, Coach Not Found" });
         }
 
-        await Coaches.destroy({
-            where: {
-                userID: id
-            }
-        });
-
-        return res.status(200).json("Successully Deleted");
+        return res.status(200).json(coach);
     } catch (error) {
         console.log(error)
         return res.status(404).json({ error: error.message });

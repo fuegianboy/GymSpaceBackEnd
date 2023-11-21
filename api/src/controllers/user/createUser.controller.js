@@ -41,7 +41,7 @@ const createUser = async (req, res) => {
                     contactPhone: "7777777",
                     photo: "url_photo",
                     enrollmentDate: Date.now(),
-                    status: "active",
+                    status: "unregistered",
                     systemRole: "User"
                 }
             })

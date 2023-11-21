@@ -10,4 +10,7 @@ module.exports = {
     ...require("../utils/isValidUUID"),
     ...require("../utils/isValidImageUrl"),
     ...require("../utils/parseIntStrict"),
+    ...require("../utils/isStringLengthInRange"),
+    ...require("../utils/isValidPositiveInteger"),
+    ...require("../utils/isValidPositiveNumber"),
 }

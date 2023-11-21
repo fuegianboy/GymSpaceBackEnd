@@ -1,7 +1,7 @@
 const { Services } = require("../../db");
 const { Op } = require("sequelize");
 const { isValidHourMinuteFormat, minValidHourMinuteFormat, maxValidHourMinuteFormat, parseIntStrict } = require("../../utils");
-const { validatePositiveIntegerHandler } = require("../../handlers/validateDuration");
+const { isValidPositiveInteger } = require("../../utils");
 
 const getAllServices = async (req, res) => {
   try {
@@ -35,17 +35,17 @@ const getAllServices = async (req, res) => {
     if (endTime && !isValidHourMinuteFormat(endTime))
       return res.status(404).json({ error: "Invalid endTime format hour:minute (00:00)." })
 
-    const validateStartDuration = validatePositiveIntegerHandler(startDuration, "startDuration")
-    if (validateStartDuration.error) return res.status(404).json(validateStartDuration)
+    if (isValidPositiveInteger(startDuration))
+      return res.status(404).json({ error: `startDuration must be a positive number.` })
 
-    const validateEndDuration = validatePositiveIntegerHandler(endDuration, "endDuration")
-    if (validateEndDuration.error) return res.status(404).json(validateEndDuration)
+    if (isValidPositiveInteger(endDuration))
+      return res.status(404).json({ error: `endDuration must be a positive number.` })
 
-    const validateMinCapacity = validatePositiveIntegerHandler(minCapacity, "minCapacity")
-    if (validateMinCapacity.error) return res.status(404).json(validateMinCapacity)
+    if (isValidPositiveInteger(minCapacity))
+      return res.status(404).json({ error: `minCapacity must be a positive number.` })
 
-    const validateMaxCapacity = validatePositiveIntegerHandler(maxCapacity, "maxCapacity")
-    if (validateMaxCapacity.error) return res.status(404).json(validateMaxCapacity)
+    if (isValidPositiveInteger(maxCapacity))
+      return res.status(404).json({ error: `maxCapacity must be a positive number.` })
 
     // Filters
 

@@ -21,15 +21,8 @@ module.exports = (sequelize) => {
         allowNull: false, // validar por regex link a image
     },    
     valuation: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            isWithinRange(value) {
-                if (value < 1 || value > 10) {
-                    throw new Error('Valuation should be between 1 and 10.');
-                }
-            },
-        },
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
   },{timestamps:false});
 };

@@ -18,7 +18,6 @@ const {deleteProduct} = require("../controllers/product/deleteProductById.contro
 const {updateProduct} =require("../controllers/product/updateProduct.controller")
 const { filters } = require("../controllers/product/filters/filters.controller")
 
-
 router.get("/products", getProducts)
 router.post("/products", postProducts)
 router.delete("/products/:id", deleteProduct)
@@ -48,6 +47,7 @@ router.delete('/coaches/:id',deleteCoachById);
 router.put('/coaches/:id',updateCoach);
 router.post('/coaches',createCoach);
 
+
 // Payments
 
 const paymentsRouter = require("./payments")
@@ -76,5 +76,6 @@ router.get("/userproducts", getAllUserProducts)
 
 const mailTo = require("../mailer/mailto");
 router.post("/mailto", mailTo)
+
 
 module.exports = router;

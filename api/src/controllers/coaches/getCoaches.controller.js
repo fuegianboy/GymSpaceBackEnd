@@ -1,8 +1,13 @@
 const { Coaches } = require("../../db");
 const { Op } = require("sequelize");
+const {isAdmin, getUUID} = require("../../utils/AuthUtils") 
 
 const getCoaches = async (req, res) => {
-
+    const auth0User = req.auth.payload.sub
+    const userUUID = getUUID(auth0User)
+    if(!await isAdmin(userUUID)){
+        return res.status(401).send({error: "only Admin allowed"})
+    }
     try {
         
         let options = { where : {}, order:[]};

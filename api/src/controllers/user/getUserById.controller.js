@@ -3,7 +3,7 @@ const { Op } = require("sequelize");
 const uuid = require('uuid');
 
 const getUserById = async (req, res) => {
-  console.log(req.headers)
+  console.log(req.oidc.user)
     let { userID } = req.params
     
     userID = userID.split("|")[1]

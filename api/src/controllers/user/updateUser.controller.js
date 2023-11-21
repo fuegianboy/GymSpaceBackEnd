@@ -1,6 +1,8 @@
 const { Op } = require("sequelize")
 const { Users } = require("../../db")
 const { isValidEmail, validateSimpleDate, isValidPhoneNumber } = require("../../utils")
+const {getUUID} = require("../../utils/AuthUtils")
+
 
 const updateUser = async (req, res) => {
 

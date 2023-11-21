@@ -1,4 +1,5 @@
 const { Users } = require("../../db")
+const {getUUID} = require("../../utils/AuthUtils")
 
 const deleteUserById = async (req, res) => {
 

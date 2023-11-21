@@ -3,12 +3,16 @@ const { Op } = require("sequelize");
 const uuid = require('uuid');
 
 const getUserById = async (req, res) => {
-  console.log(req.oidc.user)
+  console.log(req.auth)
+  console.log("--------------")
+  console.log(req.auth.header)
+  console.log("--------------")
+  console.log(req.auth.payload)
     let { userID } = req.params
     
     userID = userID.split("|")[1]
     const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)
-    console.log(userID, uuidFromAuth0UserId)
+    // console.log(userID, uuidFromAuth0UserId)
     const userFound = await Users.findAll({
         where: {
           userID: uuidFromAuth0UserId

@@ -6,6 +6,7 @@ const deleteUserById = async (req, res) => {
 
     try {
         const { id } = req.params
+        
         const auth0User = await req.auth.payload.sub
         
         const userUUID = await getUUID(auth0User)

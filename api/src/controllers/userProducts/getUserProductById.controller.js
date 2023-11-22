@@ -1,6 +1,6 @@
 const { UserProducts } = require("../../db")
 
-const deleteUserProductById = async (req, res) => {
+module.exports = async (req, res) => {
 
     try {
         let { id } = req.params
@@ -16,5 +16,3 @@ const deleteUserProductById = async (req, res) => {
         return res.status(500).send({ message: "Error deleting UserService record", error: error.message });
     }
 }
-
-module.exports = deleteUserProductById;

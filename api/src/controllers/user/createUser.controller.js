@@ -1,9 +1,10 @@
 const { Op } = require("sequelize")
 const { Users } = require("../../db")
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
+const uuid = require("uuid")
 
 const createUser = async (req, res) => {
-
+    const {ath0user} = req.body
     const {
         firstName,
         lastName,
@@ -20,6 +21,35 @@ const createUser = async (req, res) => {
         systemRole
     } = req.body
     try {
+        if (ath0user){
+            const userID = ath0user.user_id.replace("auth0|","")
+            const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)
+            let [newUser, created] = await Users.findOrCreate({
+                where: {
+                    [Op.or]: [{ userID:uuidFromAuth0UserId }, { email: ath0user.email }]
+                },
+                defaults: {
+                    userID: uuidFromAuth0UserId,
+                    firstName: "firstName",
+                    lastName: "lastName",
+                    email: ath0user.email,
+                    password: "No es necesario",
+                    birth:"2023-10-03",
+                    gender: "male",
+                    address: "address",
+                    phone: "phone",
+                    contactPhone: "contactPhone",
+                    photo: "https://i.imgur.com/kweAT9x.png",
+                    enrollmentDate: Date.now(),
+                    status: "unregistered",
+                    systemRole: "User"
+                }
+            })
+            if (!created) {
+                return res.status(400).send({ message: "The user already exists" });
+              }
+            return res.status(200).json(newUser)
+        }
         if (!firstName || !lastName || !email || !password ||
             !birth || !gender || !address || !phone || !contactPhone ||
             !photo || !enrollmentDate || !status || !systemRole)

@@ -10,7 +10,7 @@ const router = Router();
 router.get('/', getAllUsers);
 router.get('/:id',checkJwt, getUserById);
 router.post('/', createUser);
-router.delete('/:id', deleteUserById);
+router.delete('/:id',checkJwt, deleteUserById);
 router.put('/:id', updateUser);
 
 module.exports = router

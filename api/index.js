@@ -7,7 +7,7 @@ const { conn } = require("./src/db.js");
 //   });
 // });
 
-const PORT = 30021
+const PORT = process.env.PORT
 
 server.listen(PORT, async()=>{
     await conn.sync({ force: false })

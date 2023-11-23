@@ -14,10 +14,14 @@ module.exports = (sequelize) => {
         },
         finishDate: {
             type: DataTypes.DATEONLY,
-            allowNull: false,
+            allowNull: true,
         },
         startTime: {
             type: DataTypes.STRING,
+            allowNull: false, 
+        },
+        days_notice: {
+            type: DataTypes.INTEGER,
             allowNull: false, 
         },
         valuation: {

@@ -1,7 +1,7 @@
 const { Users } = require("../../db")
 const { Op } = require("sequelize");
 const setFilters = require("../../utils/users/setFilters");
-const setOffsetAndLimit = require("../../utils/users/setOffsetAndLimit");
+const setOffsetAndLimit = require("../../utils/pagination/setOffsetAndLimit");
 const setUpSorting = require("../../utils/users/setUpSorting");
 
 /**
@@ -13,21 +13,15 @@ const getAllUsers = async (req, res) => {
 
         let options = { where: {}, order: [] };  // Sequelize options object for findAll
 
-        // Set up filters
-
         options["where"] = setFilters(req.query)
-
-        // Set up sorting
-
         options["order"] = setUpSorting(req.query)
 
         // Set up pagination
-
-        const { page, limit } = req.query;
-        options = { ...options, ...setOffsetAndLimit(page, limit) }
+        const { offset, limit } = setOffsetAndLimit(req.query.page, req.query.limit);
+        options["offset"] = offset
+        options["limit"] = limit
 
         // Use Sequelize findAll with the specified options
-
         const data = await Users.findAll(options);
         return res.status(200).json(data)
     } catch (error) {

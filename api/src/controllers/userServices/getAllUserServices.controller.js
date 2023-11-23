@@ -1,75 +1,53 @@
-const { Op } = require('sequelize');
 const { Users, Services, UserServices } = require('../../db');
+const setUpFilters = require('../../utils/userServices/setUpFilters');
+const setUpSorting = require('../../utils/userServices/setUpSorting');
 
 const getAllUserServices = async (req, res) => {
   try {
-
-
-    const { filters } = req.body;
 
     const queryOptions = {
       where: {},
       include: [
         {
           model: Users,
-          attributes: ['userID', 'firstName', 'lastName','email'], 
-          where: {}, 
+          attributes: ['userID', 'firstName', 'lastName', 'email'],
+          where: {},
         },
         {
           model: Services,
-          attributes: ['serviceID', 'name', 'description', "startTime","status", "coachID"],
-          where: {}, 
+          attributes: ['serviceID', 'name', 'description', "startTime", "status", "coachID"],
+          where: {},
         },
       ],
       order: [],
     }
 
-    if(filters) {
+    /**
+     * Setear filtros por query usando datos de userServices, user o services.
+     */
+    const {
+      userServicesOptions,
+      userOptions,
+      servicesOptions,
+    } = setUpFilters(req.query)
 
-      if (filters.startDate_filter) {
-        queryOptions.where.startDate = {
-          [Op.eq]: filters.startDate_filter,
-        };
-      }
+    queryOptions["where"] = userServicesOptions
+    queryOptions["include"][0]["where"] = userOptions
+    queryOptions["include"][1]["where"] = servicesOptions
 
-      if (filters.userID_filter) {
-        queryOptions.where.userID = {
-          [Op.eq]: filters.userID_filter,
-        };
-      }
-
-      if (filters.serviceID_filter) {
-        queryOptions.where.serviceID = {
-          [Op.eq]: filters.serviceID_filter,
-        };
-      }
-
-      if (filters.User_firstName_filter) {
-        queryOptions.include[0].where.firstName = {
-          [Op.eq]: filters.User_firstName_filter,
-        };
-      }
-
-      if (filters.Service_name_filter) {
-        queryOptions.include[1].where.name = {
-          [Op.eq]: filters.Service_name_filter,
-        };
-      }
-
-      if (filters.startDate_order) {
-        queryOptions.order.push(['startDate', filters.startDate_order.toUpperCase()]);
-      }
-
-      if (filters.valuation_order) {
-        queryOptions.order.push(['valuation', filters.valuation_order.toUpperCase()]);
-      }
-
-    }
+    /**
+     * Set up sorting
+     */
+    queryOptions["order"] = setUpSorting(req.query)
 
     const result = await UserServices.findAll(queryOptions)
     return res.status(200).json(result)
   } catch (error) {
-    return res.status(500).json({ message: 'Error retrieving UserServices records', error: error.message });
+    console.log(error);
+    return res.status(500).json({
+      message: 'Error retrieving UserServices records',
+      error: error.message
+    });
   }
 }
 

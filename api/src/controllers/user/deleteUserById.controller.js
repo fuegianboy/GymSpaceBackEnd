@@ -1,11 +1,19 @@
 const { Users } = require("../../db")
 const { isValidUUID } = require("../../utils")
+const {getUUID, isAdmin} = require("../../utils/AuthUtils")
 
 const deleteUserById = async (req, res) => {
 
     try {
         const { id } = req.params
-
+        
+        const auth0User = await req.auth.payload.sub
+        
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAdmin(userUUID)){
+            return res.status(401).json({error: "only Admin allowed"})
+        }
         if (!isValidUUID(id))
             return res.status(404).json({ error: "id must be UUID format" })
 

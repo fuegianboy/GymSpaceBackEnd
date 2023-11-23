@@ -26,11 +26,15 @@ module.exports = (userFilters) => {
     if (gender) filters["gender"] = { [Op.iLike]: "%" + gender.toLowerCase().trim() + "%" }
     if (status) filters["status"] = { [Op.iLike]: "%" + status.toLowerCase().trim() + "%" }
     if (systemRole) filters["systemRole"] = { [Op.iLike]: "%" + systemRole.toLowerCase().trim() + "%" }
-    if (startDate || endDate) {
-        if (!endDate) filters["enrollmentDate"] = { [Op.gte]: startDate }
-        else if (!startDate) filters["enrollmentDate"] = { [Op.lte]: endDate }
-        else filters["enrollmentDate"] = { [Op.between]: [startDate, endDate] }
-    }
+
+    /**
+     * Los filtros startDate y endDate limitan y filtran usuarios por el enrollmentDate
+     */
+    if (startDate && endDate)
+        filters["enrollmentDate"] = { [Op.between]: [startDate, endDate] }
+    else if (startDate) filters["enrollmentDate"] = { [Op.gte]: startDate }
+    else if (endDate) filters["enrollmentDate"] = { [Op.lte]: endDate }
+
 
     return filters
 }

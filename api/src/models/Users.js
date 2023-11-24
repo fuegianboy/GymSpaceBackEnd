@@ -67,10 +67,14 @@ module.exports = (sequelize) => {
         allowNull: false,
         validate: {
             isIn: {
-              args: [['Admin', 'Coach', 'Manager', 'User']],
-              msg: 'Role should be "Admin", "Coach", "Manager", "User"',
+              args: [['Admin', 'Coach', 'Guest', 'User']],
+              msg: 'Role should be "Admin", "Coach", "Guest", "User"',
             },
         }
     },
+    valuation: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+  },
   },{timestamps:false});
 };

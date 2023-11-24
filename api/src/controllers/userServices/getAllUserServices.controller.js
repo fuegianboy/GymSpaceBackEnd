@@ -1,47 +1,15 @@
-const { Users, Services, UserServices } = require('../../db');
-const setUpFilters = require('../../utils/userServices/setUpFilters');
+const { UserServices } = require('../../db');
+const getUserServicesOptions = require('../../utils/userServices/getUserServicesOptions');
 const setUpSorting = require('../../utils/userServices/setUpSorting');
 
 const getAllUserServices = async (req, res) => {
   try {
 
-    const queryOptions = {
-      where: {},
-      include: [
-        {
-          model: Users,
-          attributes: ['userID', 'firstName', 'lastName', 'email'],
-          where: {},
-        },
-        {
-          model: Services,
-          attributes: ['serviceID', 'name', 'description', "startTime", "status", "coachID"],
-          where: {},
-        },
-      ],
-      order: [],
-    }
-
-    /**
-     * Setear filtros por query usando datos de userServices, user o services.
-     */
-    const {
-      userServicesOptions,
-      userOptions,
-      servicesOptions,
-    } = setUpFilters(req.query)
-
-    queryOptions["where"] = userServicesOptions
-    queryOptions["include"][0]["where"] = userOptions
-    queryOptions["include"][1]["where"] = servicesOptions
-
-    /**
-     * Set up sorting
-     */
+    const queryOptions = getUserServicesOptions(req.query)
     queryOptions["order"] = setUpSorting(req.query)
+    const orders = await UserServices.findAll(queryOptions)
 
-    const result = await UserServices.findAll(queryOptions)
-    return res.status(200).json(result)
+    return res.status(200).json(orders)
   } catch (error) {
     console.log(error);
     return res.status(500).json({

@@ -13,6 +13,7 @@ const createItems = async (items) => {
             quantity,
             startDate, // For service
             finishDate, // For service
+            days_notice, // For service
         } = item
 
         const itemFound = await Products.findByPk(id) || await Services.findByPk(id)
@@ -29,6 +30,7 @@ const createItems = async (items) => {
             external_reference,
             startDate, // For service
             finishDate, // For service
+            days_notice, // For service
         })
     }
 

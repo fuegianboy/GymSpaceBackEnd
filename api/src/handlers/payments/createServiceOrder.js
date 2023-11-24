@@ -8,13 +8,19 @@ const createUserServiceOrder = async (userID, item) => {
         quantity,
         startDate,
         finishDate,
+        days_notice,
         external_reference: mp_external_reference,
     } = item
 
-    const service = await Services.findByPk(serviceID)
+    // Validations
 
+    const service = await Services.findByPk(serviceID)
     if (!service)
         throw new Error("Service not found")
+
+    if (!startDate) throw new Error("startDate is missing")
+    if (!finishDate) throw new Error("finishDate is missing")
+    if (!days_notice) throw new Error("days_notice is missing")
 
     // Reduce service seats
 
@@ -35,6 +41,7 @@ const createUserServiceOrder = async (userID, item) => {
         currency_id,
         description: service.description,
         title: service.name,
+        days_notice,
         mp_payment_id: null,
         mp_status: "created",
         mp_merchant_order_id: null,

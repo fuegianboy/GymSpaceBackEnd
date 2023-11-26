@@ -75,6 +75,17 @@ module.exports = (sequelize) => {
     valuation: {
       type: DataTypes.INTEGER,
       allowNull: true,
-  },
+    },
+    favoriteProducts: {
+      type: DataTypes.ARRAY(DataTypes.UUID),
+      defaultValue: [],
+      allowNull: false,
+    },    
+    favoriteServices: {
+      type: DataTypes.ARRAY(DataTypes.UUID),
+      defaultValue: [],
+      allowNull: false,
+    },
+
   },{timestamps:false});
 };

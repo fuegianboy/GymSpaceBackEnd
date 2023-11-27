@@ -12,7 +12,7 @@ const createService = async (req, res) => {
         price,
         startTime,
         duration,
-        image,
+        image: imageReq,
         status,
         coachID,
         capacity,
@@ -20,9 +20,13 @@ const createService = async (req, res) => {
     } = req.body
     try {
         if (!name || !description || !category || !price ||
-            !startTime || !duration || !image || !status || !coachID ||
+            !startTime || !duration || !imageReq || !status || !coachID ||
             !capacity || !areaID)
             return res.status(404).json("Incomplete data")
+
+        // Transformation
+
+        const image = imageReq.trim()
 
         // Validate types and format
 
@@ -42,7 +46,7 @@ const createService = async (req, res) => {
             return res.status(404).json({ error: "Capacity must be an Integer." })
 
         // Validate uniqueness
-        
+
         const [service, created] = await Services.findOrCreate({
             where: {
                 [Op.or]: [{ name }]

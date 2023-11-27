@@ -16,12 +16,13 @@ const getResponse = async (req, res) => {
         data: {
             "model": "gpt-3.5-turbo-1106",
             "messages": [systemMessage, ...req.body.messages],
-            // "max_tokens": 50,
+            "max_tokens": 1200,
+            "temperature": 0.2,
+            "n": 1
         }
     }
     try {
         const { data } = await axios.request(options)
-        console.log(data)
         return res.status(200).json(data)
     } catch (error) {
         console.log(error)

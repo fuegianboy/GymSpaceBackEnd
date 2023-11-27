@@ -47,9 +47,8 @@ models.UserProducts.belongsTo(models.Products, { foreignKey: 'productID' });
 
 
 // relacion UserProducts - Reviews
-models.UserServices.hasMany(models.Reviews, { foreignKey: 'userServicesID' });
+models.UserServices.hasOne(models.Reviews, { foreignKey: 'userServicesID' });
 models.Reviews.belongsTo(models.UserServices, { foreignKey: 'userServicesID' });
-
 
 module.exports = {
    ...sequelize.models,

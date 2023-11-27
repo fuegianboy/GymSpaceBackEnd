@@ -10,6 +10,7 @@ const mailerRouter = require("./mailer");
 const whatsappRouter = require("./whatsapp")
 const getToken = require("../controllers/auth0/getToktn.controller")
 const chatRouter = require("./chat")
+const reviewsRouter = require("./reviews")
 
 
 const router = Router();
@@ -20,6 +21,7 @@ router.use("/services", servicesRouter)
 router.use("/coaches", coachesRouter)
 router.use("/userservices", userServicesRouter)
 router.use("/userproducts", userProductsRouter)
+router.use("/reviews", reviewsRouter)
 
 router.use("/payments", paymentsRouter)
 router.use("/mailto", mailerRouter)

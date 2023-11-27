@@ -4,13 +4,13 @@ const createService = require("../controllers/service/createService.controller")
 const deleteServiceById = require("../controllers/service/deleteServiceById.controller");
 const updateService = require("../controllers/service/updateService.controller");
 const getServiceById = require("../controllers/service/getServiceById.controller");
-
+const checkJwt = require("./auth0")
 const router = Router();
 
-router.get("/", getAllServices)
-router.get("/:id", getServiceById)
-router.post("/", createService)
-router.delete("/:id", deleteServiceById)
-router.put("/:id", updateService)
+router.get("/", checkJwt, getAllServices)
+router.get("/:id", checkJwt, getServiceById)
+router.post("/", checkJwt, createService)
+router.delete("/:id", checkJwt, deleteServiceById)
+router.put("/:id", checkJwt, updateService)
 
 module.exports = router

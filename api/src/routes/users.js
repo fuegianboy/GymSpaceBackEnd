@@ -7,10 +7,10 @@ const getUserById = require("../controllers/user/getUserById.controller");
 const checkJwt = require("./auth0")
 const router = Router();
 
-router.get('/', getAllUsers);
+router.get('/', checkJwt, getAllUsers);
 router.get('/:id',checkJwt, getUserById);
-router.post('/', createUser);
+router.post('/',checkJwt, createUser);
 router.delete('/:id',checkJwt, deleteUserById);
-router.put('/:id', updateUser);
+router.put('/:id', checkJwt, updateUser);
 
 module.exports = router

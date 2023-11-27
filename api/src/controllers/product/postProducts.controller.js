@@ -1,14 +1,23 @@
 const { Products } = require("../../db");
 const { Op } = require("sequelize");
 const { arrayEquals } = require("../../utils/arrayEquals");
+const {getUUID, isAuthorized} = require("../../utils/AuthUtils")
 
 const postProducts = async (req, res) => {
   try {
     const product = req.body;
 
+    const auth0User = await req.auth.payload.sub
+        const rolesAllowed = ["Admin"]
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAuthorized(userUUID,rolesAllowed)){
+            return res.status(403).json({error: `only ${rolesAllowed} allowed`})
+        }
+
     let productsAtributes = Object.keys(Products.getAttributes());
     productsAtributes.shift()
-    console.log(productsAtributes);
+    
 
     // Validacion para que tenga todos los atributos
     if (!arrayEquals(Object.keys(product), productsAtributes)) {

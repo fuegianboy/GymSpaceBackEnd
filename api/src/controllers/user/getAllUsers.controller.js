@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const setFilters = require("../../utils/users/setFilters");
 const setOffsetAndLimit = require("../../utils/pagination/setOffsetAndLimit");
 const setUpSorting = require("../../utils/users/setUpSorting");
+const {getUUID,isAuthorized} =require("../../utils/AuthUtils")
 
 /**
  * The getUsers function handles the logic for paginating through the list of users.
@@ -10,7 +11,13 @@ const setUpSorting = require("../../utils/users/setUpSorting");
 const getAllUsers = async (req, res) => {
 
     try {
-
+        const auth0User = await req.auth.payload.sub
+        const rolesAllowed = ['Admin', 'Coach']
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAuthorized(userUUID,rolesAllowed)){
+            return res.status(403).json({error: `only ${rolesAllowed} allowed`})
+        }
         let options = { where: {}, order: [] };  // Sequelize options object for findAll
 
         options["where"] = setFilters(req.query)

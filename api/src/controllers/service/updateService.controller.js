@@ -2,12 +2,20 @@ const { Op } = require("sequelize")
 const { Services } = require("../../db")
 const { isValidHourMinuteFormat, isValidImageUrl, isValidUUID } = require("../../utils")
 const { isValidPositiveInteger } = require("../../utils")
-
+const {getUUID, isAuthorized} = require("../../utils/AuthUtils")
 const updateService = async (req, res) => {
 
     try {
         const data = req.body
         const { id } = req.params
+
+        const auth0User = await req.auth.payload.sub
+        const rolesAllowed = ["Admin", "Coach"]
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAuthorized(userUUID,rolesAllowed)){
+            return res.status(403).json({error: `only ${rolesAllowed} allowed`})
+        }
         const {
             name,
             description,

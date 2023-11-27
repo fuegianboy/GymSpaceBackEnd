@@ -5,15 +5,15 @@ const createUserService = require("../controllers/userServices/createUserService
 const updateUserService = require("../controllers/userServices/updateUserServices.controller");
 const deleteUserServiceById = require("../controllers/userServices/deleteUserServiceById.controller");
 const sendBulkEmails = require("../controllers/userServices/sendBulkEmails.controller");
-
+const checkJwt = require("./auth0")
 const router = Router();
 
-router.get("/", getAllUserServices)
-router.get("/:id", getUserServiceById)
-router.post("/", createUserService)
-router.put("/:id", updateUserService)
-router.delete("/:id", deleteUserServiceById)
-router.post("/send-emails", sendBulkEmails)
+router.get("/", checkJwt, getAllUserServices)
+router.get("/:id", checkJwt, getUserServiceById)
+router.post("/", checkJwt, createUserService)
+router.put("/:id", checkJwt, updateUserService)
+router.delete("/:id", checkJwt, deleteUserServiceById)
+router.post("/send-emails", checkJwt, sendBulkEmails)
 
 
 module.exports = router

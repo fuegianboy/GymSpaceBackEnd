@@ -2,7 +2,7 @@ const { Op } = require("sequelize")
 const { Services } = require("../../db")
 const { isValidHourMinuteFormat } = require("../../utils/")
 const { isValidImageUrl } = require("../../utils/isValidImageUrl")
-
+const {getUUID, isAuthorized} = require("../../utils/AuthUtils")
 const createService = async (req, res) => {
 
     const {
@@ -19,6 +19,13 @@ const createService = async (req, res) => {
         areaID,
     } = req.body
     try {
+        const auth0User = await req.auth.payload.sub
+        const rolesAllowed = ["Admin", "Coach"]
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAuthorized(userUUID,rolesAllowed)){
+            return res.status(403).json({error: `only ${rolesAllowed} allowed`})
+        }
         if (!name || !description || !category || !price ||
             !startTime || !duration || !image || !status || !coachID ||
             !capacity || !areaID)

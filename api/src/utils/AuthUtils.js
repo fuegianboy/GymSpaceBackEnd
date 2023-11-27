@@ -1,8 +1,9 @@
 const { Users } = require("../db");
 const uuid = require("uuid");
-const isAdmin = async (userID) => {
+const isAuthorized = async (userID,roles) => {
   const currentUser = await Users.findByPk(userID);
-  if (currentUser.systemRole === "Admin") {
+  console.log(currentUser.email, currentUser.systemRole)
+  if (roles.includes(currentUser.systemRole) ) {
     return true;
   }
   return false;
@@ -14,4 +15,4 @@ const getUUID = async (auth0User) => {
   return userUUID;
 };
 
-module.exports = { isAdmin, getUUID };
+module.exports = { isAuthorized, getUUID };

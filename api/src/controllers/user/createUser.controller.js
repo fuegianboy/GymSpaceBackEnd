@@ -2,6 +2,7 @@ const { Op } = require("sequelize")
 const { Users } = require("../../db")
 const { isValidEmail, isValidPhoneNumber, validateSimpleDate } = require("../../utils/")
 const uuid = require("uuid")
+const {getUUID,isAuthorized} =require("../../utils/AuthUtils")
 
 const createUser = async (req, res) => {
     const { ath0user } = req.body
@@ -21,6 +22,13 @@ const createUser = async (req, res) => {
         systemRole
     } = req.body
     try {
+        const auth0User = await req.auth.payload.sub
+        const rolesAllowed = ['Admin']
+        const userUUID = await getUUID(auth0User)
+        
+        if(!await isAuthorized(userUUID,rolesAllowed)){
+            return res.status(403).json({error: `only ${rolesAllowed} allowed`})
+        }
         if (ath0user) {
             const userID = ath0user.user_id.replace("auth0|", "")
             const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)

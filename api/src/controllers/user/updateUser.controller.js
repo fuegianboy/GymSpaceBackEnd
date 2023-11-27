@@ -20,7 +20,9 @@ const updateUser = async (req, res) => {
             birth,
             enrollmentDate,
             phone,
-            contactPhone
+            contactPhone,
+            favoriteProducts,
+            favoriteServices
         } = data
 
         if ("email" in data) {
@@ -61,6 +63,24 @@ const updateUser = async (req, res) => {
 
         if ("contactPhone" in data && !isValidPhoneNumber(contactPhone))
             return res.status(404).json({ error: "Invalid phone number" })
+
+        if ("favoriteProducts" in data && isValidUUID(favoriteProducts)) {
+            if (user.favoriteProducts.includes(favoriteProducts)) {
+                const arrayFavorites = user.favoriteProducts.filter((id) => id !== favoriteProducts)
+                data.favoriteProducts = arrayFavorites
+            } else {
+                data.favoriteProducts = [...user.favoriteProducts, favoriteProducts]
+            }
+        }
+
+        if ("favoriteServices" in data && isValidUUID(favoriteServices)) {
+            if (user.favoriteServices.includes(favoriteServices)) {
+                const arrayFavorites = user.favoriteServices.filter((id) => id !== favoriteServices)
+                data.favoriteServices = arrayFavorites
+            } else {
+                data.favoriteServices = [...user.favoriteServices, favoriteServices]
+            }
+        }
 
         await user.update({ ...data })
         return res.status(200).json(user)

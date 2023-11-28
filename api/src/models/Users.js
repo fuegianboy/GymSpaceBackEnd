@@ -86,6 +86,11 @@ module.exports = (sequelize) => {
       defaultValue: [],
       allowNull: false,
     },
+    cart: {
+      type: DataTypes.ARRAY(DataTypes.UUID),
+      defaultValue: [],
+      allowNull: false,
+    },
 
   },{timestamps:false});
 };

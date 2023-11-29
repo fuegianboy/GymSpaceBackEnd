@@ -1,5 +1,5 @@
 const { Op } = require("sequelize")
-const { Services } = require("../../db")
+const { Services, Users } = require("../../db")
 const { isValidHourMinuteFormat } = require("../../utils/")
 const { isValidImageUrl } = require("../../utils/isValidImageUrl")
 
@@ -17,7 +17,9 @@ const createService = async (req, res) => {
         coachID,
         capacity,
         areaID,
+        coachIDs
     } = req.body
+    console.log(coachIDs)
     try {
         if (!name || !description || !category || !price ||
             !startTime || !duration || !imageReq || !status || !coachID ||
@@ -51,8 +53,38 @@ const createService = async (req, res) => {
             where: {
                 [Op.or]: [{ name }]
             },
-            defaults: { ...req.body }
+            defaults: {
+                    name,
+                    description,
+                    category,
+                    price,
+                    startTime,
+                    duration,
+                    image: imageReq,
+                    status,
+                    coachID,
+                    capacity,
+                    areaID,
+                }
         })
+
+        // Agregar coaches
+        // await service.addUsers(coachIDs)
+        // const teamIds = await Promise.all(coachIDs.map(async (id) => {
+        //     const team = await Users.findOne({ where: { userID: id } });
+        //     return team.id;
+        // }));
+        // await service.setUsers(coachIDs);
+        const coaches = await Users.findAll({
+            where: {
+              userID: coachIDs,
+              systemRole: 'Coach',
+            },
+          });
+      
+          // Asignar coaches al servicio a través de la tabla intermedia ServiceCoach
+          await service.addUsers(coaches);
+
 
         if (!created)
             return res.status(404).json({

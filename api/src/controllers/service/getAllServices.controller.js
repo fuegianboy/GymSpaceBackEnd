@@ -1,4 +1,4 @@
-const { Services } = require("../../db");
+const { Services, Users } = require("../../db");
 const setUpFilters = require("../../utils/services/setUpFilters");
 const setOffsetAndLimit = require("../../utils/pagination/setOffsetAndLimit");
 const setUpSorting = require("../../utils/services/setUpSorting");
@@ -6,7 +6,16 @@ const setUpSorting = require("../../utils/services/setUpSorting");
 const getAllServices = async (req, res) => {
   try {
 
-    let options = { where: {}, order: [] };  // Sequelize options object for findAll
+    let options = { 
+      where: {}, 
+      order: [], 
+      include: [
+        {
+          model: Users,
+          // where: {},
+        },
+      ],
+    };  // Sequelize options object for findAll
 
     options["where"] = setUpFilters(req.query)
     options["order"] = setUpSorting(req.query)

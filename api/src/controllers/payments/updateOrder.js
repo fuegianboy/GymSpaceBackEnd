@@ -1,26 +1,28 @@
+const { UserProducts, UserServices, Users } = require("../../db");
 const updateOrderHandler = require("../../handlers/payments/updateOrder")
 const samples = require("../../utils/mails/samples");
 const getOrderOwner = require("../../handlers/payments/getOrderOwner");
-const sendWsMessage = require("../../handlers/whatsapp/sendWsMessage");
 const sendEmail = require("../../handlers/mailer/sendEmail");
 
 const updateOrder = async (req, res) => {
     try {
+        // Update orders
         await updateOrderHandler(req.query)
 
-        // Send notifications
+        // Get user data
         const { external_reference, status } = req.query
-        const orderOwner = await getOrderOwner(external_reference)
-        const messageData = (status === "approved" && samples.success) ||
-            (status === "in_process" && samples.pending) ||
-            samples.failure
-        sendEmail(orderOwner, messageData)
-        // sendWsMessage(orderOwner, messageData)
+        const user = await getOrderOwner(external_reference)
 
-        return res.json(req.query)
+        // Send email notification
+        const messageData = (status === "approved" && samples.success) ||
+            (status === "in_process" && samples.pending) || samples.failure
+        sendEmail(user, messageData)
+
+        console.log(req.query)
     } catch (error) {
         console.log(error)
-        return res.status(404).json({ error: error.message });
+    } finally {
+        return res.redirect("https://gymspace.up.railway.app")
     }
 }
 

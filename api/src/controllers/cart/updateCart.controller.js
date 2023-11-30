@@ -35,7 +35,8 @@ const updateCart = async (req, res) => {
           service.destroy();
         });
       }
-    
+    if(products.length){
+        console.log("Estoy aqui productos")
     for (const product of products) {
         const productToCart = {
           userID: userUUID,
@@ -47,7 +48,9 @@ const updateCart = async (req, res) => {
         };
         await UserProducts.create(productToCart);
       }
-    
+    }
+    if(services.length){
+        console.log("Estoy aqui")
       for (const service of services) {
         const serviceToCart = {
           userID: userUUID,
@@ -64,7 +67,7 @@ const updateCart = async (req, res) => {
         };
         await UserServices.create(serviceToCart);
       }
-
+    }
     return res.status(200).json({ message: "Your cart was updated" });
   } catch (error) {
     console.error(error);

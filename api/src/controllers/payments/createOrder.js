@@ -10,7 +10,8 @@ module.exports = async (req, res) => {
 
         const {
             userId,
-            items
+            items,
+            redirectPayment
         } = req.body
 
         // Validate userId
@@ -26,13 +27,14 @@ module.exports = async (req, res) => {
         if (userFound.status !== "active")
             return res.status(404).json({ error: "User is not active" });
 
-        await validateItems(items); 
+        await validateItems(items);
         const { mpResponse, external_reference } = await createPreferences(req, items)
 
         if (!mpResponse)
             return res.status(500).json("MecardoPago fail to create payment link.")
 
         await createOrders(userId, items, external_reference)
+        if (redirectPayment) res.redirect(mpResponse.response.init_point)
         return res.json(mpResponse)
     } catch (error) {
         console.log(error)

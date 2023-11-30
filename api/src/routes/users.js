@@ -9,11 +9,11 @@ const checkJwt = require("./auth0");
 const router = Router();
 
 router.get('/', getAllUsers);
+router.get('/favorites/:id', getUserFavorites)
 router.get('/:id',checkJwt, getUserById);
 router.post('/', createUser);
 router.delete('/:id',checkJwt, deleteUserById);
 router.put('/:id', updateUser);
 
-router.get('/favorites/:id', getUserFavorites)
 
 module.exports = router

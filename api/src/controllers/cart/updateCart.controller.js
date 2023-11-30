@@ -1,27 +1,42 @@
 const { Op } = require("sequelize");
 const { Users } = require("../../db");
-const { UserProducts } = require("../../db");
+const { UserProducts, UserServices } = require("../../db");
 const { getUUID } = require("../../utils/AuthUtils");
 const updateCart = async (req, res) => {
   try {
     const { id } = req.params;
     const { data } = req.body;
+    console.log(data)
     const { products } = data;
+    const {services} = data
     const userUUID = await getUUID(id);
 
-
-    const userCart = await UserProducts.findAll({
+    // Delete products 
+    const productsCart = await UserProducts.findAll({
       where: {
         userID: userUUID,
         mp_status: "inCart",
       },
     });
-    if (userCart.length) {
-      userCart.map((product) => {
+    if (productsCart.length) {
+      productsCart.map((product) => {
         product.destroy();
       });
     }
-
+    // Delete services
+    const servicesCart = await UserServices.findAll({
+        where: {
+          userID: userUUID,
+          mp_status: "inCart",
+        },
+      });
+      if (servicesCart.length) {
+        servicesCart.map((service) => {
+          service.destroy();
+        });
+      }
+    if(products.length){
+        console.log("Estoy aqui productos")
     for (const product of products) {
         const productToCart = {
           userID: userUUID,
@@ -33,7 +48,26 @@ const updateCart = async (req, res) => {
         };
         await UserProducts.create(productToCart);
       }
-
+    }
+    if(services.length){
+        console.log("Estoy aqui")
+      for (const service of services) {
+        const serviceToCart = {
+          userID: userUUID,
+          serviceID: service.serviceID,
+          startDate:service.startDate,
+          finishDate:Date.now(),
+          startTime:service.startDate,
+          days_notice:2,
+          qty: service.quantity,
+          unitPrice: service.price,
+          date: Date.now(),
+          status: 'normal',
+          mp_status: "inCart",
+        };
+        await UserServices.create(serviceToCart);
+      }
+    }
     return res.status(200).json({ message: "Your cart was updated" });
   } catch (error) {
     console.error(error);

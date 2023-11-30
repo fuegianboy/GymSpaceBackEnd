@@ -21,7 +21,7 @@ const getAllUserProducts = async (req, res) => {
       ],
       order: [],
     };
-
+    
     if (filters) {
       if (filters.userID_filter) {
         queryOptions.where.userID = {
@@ -32,6 +32,12 @@ const getAllUserProducts = async (req, res) => {
       if (filters.productID_filter) {
         queryOptions.where.productID = {
           [Op.eq]: filters.productID_filter,
+        };
+      }
+
+      if (filters.external_reference_filter) {
+        queryOptions.where.mp_external_reference = {
+          [Op.eq]: filters.external_reference_filter,
         };
       }
 

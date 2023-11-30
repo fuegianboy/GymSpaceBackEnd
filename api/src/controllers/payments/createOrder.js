@@ -1,12 +1,10 @@
 const { Products, Services, Users } = require("../../db");
 const validateItems = require("../../handlers/payments/validateItems");
 const { isValidUUID } = require("../../utils");
-const createProductOrder = require("../../handlers/payments/createProductOrder");
-const createServiceOrder = require("../../handlers/payments/createServiceOrder");
-const createItems = require("../../handlers/payments/createItems");
 const createPreferences = require("../../handlers/payments/createPreferences");
+const createOrders = require("../../handlers/payments/createOrders");
 
-const createOrder = async (req, res) => {
+module.exports = async (req, res) => {
 
     try {
 
@@ -28,29 +26,16 @@ const createOrder = async (req, res) => {
         if (userFound.status !== "active")
             return res.status(404).json({ error: "User is not active" });
 
-        // Validate items
+        await validateItems(items); 
+        const { mpResponse, external_reference } = await createPreferences(req, items)
 
-        await validateItems(items);
+        if (!mpResponse)
+            return res.status(500).json("MecardoPago fail to create payment link.")
 
-        // Create items
-
-        const [preferenceItems, external_reference] = await createItems(items)
-
-        // Create order
-
-        for (const item of preferenceItems) {
-            const productFound = await Products.findByPk(item.id)
-            productFound ? await createProductOrder(userId, item) :
-                await createServiceOrder(userId, item)
-        }
-        // Create preference
-        const back_url = `${req.protocol}://${req.get('host')}/payments/update`
-        const mpResponse = await createPreferences(preferenceItems, external_reference, back_url)
+        await createOrders(userId, items, external_reference)
         return res.json(mpResponse)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ error: error.message });
     }
 }
-
-module.exports = createOrder;

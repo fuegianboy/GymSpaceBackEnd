@@ -2,10 +2,6 @@ const axios = require("axios").default
 
 const getResponse = async (req, res) => {
 
-    const systemMessage = {
-        role: "system",
-        content: "Explain all concepts like I am 10 years old"
-    }
     const options = {
         method: 'POST',
         url: "https://api.openai.com/v1/chat/completions",
@@ -13,13 +9,7 @@ const getResponse = async (req, res) => {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${process.env.CHATBOT_API_KEY}`
         },
-        data: {
-            "model": "gpt-3.5-turbo-1106",
-            "messages": [systemMessage, ...req.body.messages],
-            "max_tokens": 1200,
-            "temperature": 0.2,
-            "n": 1
-        }
+        data: req.body
     }
     try {
         const { data } = await axios.request(options)

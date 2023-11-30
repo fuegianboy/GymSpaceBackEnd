@@ -22,7 +22,9 @@ const updateOrder = async (req, res) => {
     } catch (error) {
         console.log(error)
     } finally {
-        return res.redirect(`${req.protocol}://${req.get('host')}/`)
+        console.log(process.env.URL_FRONT);
+        const url = process.env.URL_FRONT || "https://gymspace.up.railway.app"
+        return res.redirect(url)
     }
 }
 

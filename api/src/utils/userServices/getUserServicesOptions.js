@@ -12,6 +12,7 @@ module.exports = (filters) => {
         finishDateAfter, finishDateBefore,
         userId,
         serviceId,
+        external_reference,
         sql
     } = filters
 
@@ -27,6 +28,9 @@ module.exports = (filters) => {
 
     if (userId) userServicesOptions["userID"] = { [Op.eq]: userId }
     if (serviceId) userServicesOptions["serviceID"] = { [Op.eq]: serviceId }
+
+    if (external_reference)
+        userServicesOptions["mp_external_reference"] = { [Op.eq]: external_reference }
 
     if (sql) userServicesOptions = conn.literal(sql)
     /**

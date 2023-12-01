@@ -1,4 +1,5 @@
 const { Users } = require("../../db")
+const { Op } = require("sequelize")
 const uuid = require('uuid');
 const createUserGoogle = async (req, res) => {
     try{
@@ -27,9 +28,10 @@ const createUserGoogle = async (req, res) => {
                     systemRole: "User"
                 }
             })
+            return res.status(200).json({userCreated: created})
         }
         
-        return res.status(200).json({userCreated: created})
+        return res.status(200).json({message: "Auth0 user"})
     }catch(error){
         console.log(error)
         return res.status(500).json({error : error})

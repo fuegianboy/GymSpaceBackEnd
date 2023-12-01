@@ -21,7 +21,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     display: {
-      type: DataTypes.STRING,
+      type: DataTypes.ENUM('tocheck', 'display', 'nodisplay'),
       allowNull: true,
     },
   },{timestamps:false});

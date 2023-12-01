@@ -15,7 +15,7 @@ const getResponse = async (req, res) => {
         const { data } = await axios.request(options)
         return res.status(200).json(data)
     } catch (error) {
-        console.log(error)
+        console.log(error, error.response?.data)
         return res.status(500).json({ error: error.message })
     }
 }

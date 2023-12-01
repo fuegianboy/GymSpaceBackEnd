@@ -71,7 +71,7 @@ module.exports = (filters) => {
                     'userID',
                     'firstName',
                     'lastName',
-                    'email'
+                    'email',
                 ],
             },
             {
@@ -83,7 +83,8 @@ module.exports = (filters) => {
                     'description',
                     "startTime",
                     "status",
-                    "coachID"
+                    "coachID",
+                    "image",
                 ],
             },
         ],

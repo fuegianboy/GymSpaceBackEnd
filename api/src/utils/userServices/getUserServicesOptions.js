@@ -1,4 +1,4 @@
-const { Users, Services } = require('../../db');
+const { Users, Services, Reviews } = require('../../db');
 const { Op } = require("sequelize")
 const setUsersFilters = require("../users/setFilters")
 const setUpServicesFilters = require("../services/setUpFilters")
@@ -85,6 +85,15 @@ module.exports = (filters) => {
                     "status",
                     "coachID",
                     "image",
+                ],
+            },
+            {
+                model: Reviews, 
+                attributes: [
+                    'reviewID',
+                    // 'rating',
+                    'comment',
+                    'display',
                 ],
             },
         ],

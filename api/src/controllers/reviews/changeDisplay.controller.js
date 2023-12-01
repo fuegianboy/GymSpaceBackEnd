@@ -8,12 +8,13 @@ const changeDisplay = async (req, res) => {
         const review  = await Reviews.findByPk(id)
 
         if(!review) {
-            return res.status(422).send({message:"Review not found"})
+            return res.status(404).send({message:"Review not found"})
         }
         await review.update({ ...data })
         return res.status(200).json(review)
     } catch (error) {
-        return res.status(404).send({ message: error.message });
+        console.log(error);
+        return res.status(500).send({ message: error.message });
     }
 }
 

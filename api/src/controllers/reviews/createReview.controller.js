@@ -8,22 +8,24 @@ const createReview = async (req, res) => {
         display
     } = req.body;
     try {
-        
-        if (!userServicesID || !comment || !display ) {
-            return res.status(404).json({error:"Data Incomplete"});
+
+        if (!userServicesID || !comment || !display) {
+            return res.status(404).json({ error: "Data Incomplete" });
         }
 
-        const [newreview,created] = await Reviews.findOrCreate({
-            where: { ...req.body },
+        const [newreview, created] = await Reviews.findOrCreate({
+            where: { userServicesID },
+            defaults: { comment, display },
         });
 
         if (!created) {
-            return res.status(404).json({error:"Error while creating Review"});
+            return res.status(404).json({ error: "Review is already created" });
         }
 
         return res.status(200).json(newreview);
     } catch (error) {
-        return res.status(404).json({error:error.message});
+        console.log(error);
+        return res.status(500).json({ error: error.message });
     }
 }
 

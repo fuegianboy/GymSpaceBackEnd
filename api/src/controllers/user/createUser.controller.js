@@ -66,13 +66,13 @@ const createUser = async (req, res) => {
 
         const [newUser, created] = await Users.findOrCreate({
             where: {
-                [Op.or]: [{ email }, { phone }]
+                [Op.or]: [{ email }] //, { phone }]
             },
             defaults: { ...req.body }
         })
 
         if (!created)
-            return res.status(404).json({ error: "User with this email or phone already exists." })
+            return res.status(404).json({ error: "User with this email already exists." })
 
         return res.status(200).json({ newUser, created })
     } catch (error) {

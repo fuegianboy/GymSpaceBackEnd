@@ -13,7 +13,7 @@ const createUserGoogle = async (req, res) => {
                 },
                 defaults: {
                     userID: uuidFromAuth0UserId,
-                    firstName: source + "User",
+                    firstName: "firstName",
                     lastName: "lastName",
                     email: auth0user.email,
                     password: "No es necesario",

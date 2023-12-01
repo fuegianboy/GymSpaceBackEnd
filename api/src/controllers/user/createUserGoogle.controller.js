@@ -5,8 +5,9 @@ const createUserGoogle = async (req, res) => {
     try{
         const {auth0user} = req.body
         const[source,userID] = auth0user.user_id.split("|")
+        const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)
         if(source !== 'auth0'){
-            const uuidFromAuth0UserId = uuid.v5(userID, uuid.v5.URL)
+            
             let [newUser, created] = await Users.findOrCreate({
                 where: {
                     [Op.or]: [{ userID:uuidFromAuth0UserId }, { email: auth0user.email }]
@@ -28,10 +29,14 @@ const createUserGoogle = async (req, res) => {
                     systemRole: "User"
                 }
             })
-            return res.status(200).json({userCreated: created})
+            
+        } else {
+            const newUser = await Users.findByPk(uuidFromAuth0UserId)
         }
-        
-        return res.status(200).json({message: "Auth0 user"})
+        if(!["unregistered","active"].includes(newUser.status)){
+            return res.status(400).json({message: "User inactive"})
+        }
+        return res.status(200).json({message: "success"})
     }catch(error){
         console.log(error)
         return res.status(500).json({error : error})

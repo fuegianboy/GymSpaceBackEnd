@@ -12,7 +12,7 @@ const deleteUserById = async (req, res) => {
         const userUUID = await getUUID(auth0User)
         
         if(!await isAdmin(userUUID)){
-            return res.status(401).json({error: "only Admin allowed"})
+            return res.status(401).json({error: "Only Admin allowed"})
         }
         if (!isValidUUID(id))
             return res.status(404).json({ error: "id must be UUID format" })

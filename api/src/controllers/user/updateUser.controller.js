@@ -13,7 +13,7 @@ const updateUser = async (req, res) => {
         const user = await Users.findByPk(userUUID)
 
         if (!user)
-            return res.status(404).json({ error: "Nonexistent Id user" })
+            return res.status(404).json({ error: "Id user does not exist" })
 
         const {
             email,

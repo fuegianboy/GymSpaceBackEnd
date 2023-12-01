@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
                     firstName: "firstName",
                     lastName: "lastName",
                     email: ath0user.email,
-                    password: "No es necesario",
+                    password: "Is not necessary",
                     birth: "2023-10-03",
                     gender: "male",
                     address: "address",
@@ -53,7 +53,7 @@ const createUser = async (req, res) => {
         if (!firstName || !lastName || !email || !password ||
             !birth || !gender || !address || !phone || !contactPhone ||
             !photo || !enrollmentDate || !status || !systemRole)
-            return res.status(404).json("Faltan datos")
+            return res.status(404).json("Incomplete data")
 
         if (!isValidEmail(email))
             return res.status(404).json({ error: "Invalid email" })

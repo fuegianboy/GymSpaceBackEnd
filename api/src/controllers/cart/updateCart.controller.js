@@ -36,7 +36,6 @@ const updateCart = async (req, res) => {
         });
       }
     if(products.length){
-        console.log("Estoy aqui productos")
     for (const product of products) {
         const productToCart = {
           userID: userUUID,
@@ -50,7 +49,6 @@ const updateCart = async (req, res) => {
       }
     }
     if(services.length){
-        console.log("Estoy aqui")
       for (const service of services) {
         const serviceToCart = {
           userID: userUUID,

@@ -1,27 +1,27 @@
 module.exports = {
     success: {
-        subject: `Confirmación: ¡Tu orden en GymSpace ha sido aprobada!`,
-        body: `¡Excelentes noticias! Tu orden ha sido aprobada y está en proceso de preparación. Si necesitas más detalles sobre las clases o los productos, estamos aquí para ayudarte. Gracias por confiar en GymSpace para tus necesidades fitness, ¡esperamos que disfrutes al máximo de todo lo que ofrecemos! Saludos, Equipo GymSpace`,
+        subject: `Confirmation: Your order at GymSpace has been approved!`,
+        body: `Great news! Your order has been approved and is in the process of preparation. If you need more details about the classes or products, we are here to help. Thank you for trusting GymSpace for your fitness needs; we hope you enjoy everything we offer to the fullest! Regards, GymSpace Team`,
         link: "https://gymspace.up.railway.app/",
     },
     failure: {
-        subject: `Actualización sobre tu compra en GymSpace`,
-        body: `Lamentamos informarte que el pago asociado a tu compra en GymSpace ha sido rechazado por el proveedor del servicio. Te recomendamos revisar los detalles de pago y contactar a tu proveedor financiero para resolver este inconveniente. Estamos aquí para asistirte en este proceso y garantizar que puedas completar tu compra sin problemas. Si necesitas ayuda adicional, no dudes en contactarnos. Tu satisfacción es nuestra prioridad. Atentamente, Equipo GymSpace`,
+        subject: `Update on your purchase at GymSpace`,
+        body: `We regret to inform you that the payment associated with your purchase at GymSpace has been rejected by the service provider. We recommend checking the payment details and contacting your financial provider to resolve this issue. We are here to assist you in this process and ensure you can complete your purchase smoothly. If you need additional help, feel free to contact us. Your satisfaction is our priority. Sincerely, GymSpace Team`,
         link: "https://gymspace.up.railway.app/",
     },
     pending: {
-        subject: `Actualización sobre el estado de tu compra en GymSpace`,
-        body: `Queríamos informarte que hemos recibido tu orden en GymSpace. Actualmente, el estado del pago está pendiente de confirmación por parte del proveedor de servicios financieros. En cuanto recibamos la confirmación de tu pago, nos comunicaremos de inmediato para iniciar el proceso de entrega de tu producto o servicio. Si tienes alguna pregunta o necesitas más detalles, no dudes en contactarnos. Estamos aquí para ayudarte. Atentamente, Equipo GymSpace`,
+        subject: `Update on the status of your purchase at GymSpace`,
+        body: `We wanted to inform you that we have received your order at GymSpace. Currently, the payment status is pending confirmation from the financial service provider. As soon as we receive confirmation of your payment, we will immediately contact you to initiate the delivery process of your product or service. If you have any questions or need more details, feel free to contact us. We are here to help you. Sincerely, GymSpace Team`,
         link: "https://gymspace.up.railway.app/",
     },
     userServiceAboutToExpire: {
-        subject: `Servicio a punto de expirar`,
-        body: `Servicio a punto de expirar`,
+        subject: `Service About to Expire`,
+        body: `Service About to Expire`,
         link: "https://gymspace.up.railway.app/",
     },
     userServiceExpired: {
-        subject: `Servicio Expirado`,
-        body: `Servicio Expirado`,
+        subject: `Service Expired`,
+        body: `Service Expired`,
         link: "https://gymspace.up.railway.app/",
     },
 }
